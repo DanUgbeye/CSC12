@@ -1,7 +1,7 @@
 <?php
   session_start();
   if(!empty($_SESSION['studentId'])) {
-    header("Location: ../../student/");
+    header("Location: /CSC12/dist/student/");
     exit;
   }
 ?>

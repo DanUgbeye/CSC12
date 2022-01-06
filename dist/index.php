@@ -1,10 +1,10 @@
 <?php
   session_start();
   if(!empty($_SESSION['adminId'])) {
-    header("Location: admin/");
+    header("Location: /CSC12/dist/admin/");
     exit;
   } elseif(!empty($_SESSION['studentId'])) {
-    header("Location: student/");
+    header("Location: /CSC12/dist/student/");
     exit;
   }
 ?>
@@ -57,9 +57,9 @@
 
 
     <script src="/CSC12/dist/scripts/ui.js"></script>
-    <!-- <script src="./scripts/login.js"></script> -->
-    <!-- <script src="./scripts/student.js"></script> -->
-    <!-- <script src="./app.js"></script> -->
+    <!-- <script src="/CSC12/dist/scripts/login.js"></script> -->
+    <!-- <script src="/CSC12/dist/scripts/student.js"></script> -->
+    <!-- <script src="/CSC12/dist/app.js"></script> -->
     
   </body>
 </html>
