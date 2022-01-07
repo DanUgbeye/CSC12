@@ -1,22 +1,22 @@
 <?php
-session_start();
-if (!empty($_SESSION['adminId'])) {
-  header("Location: /CSC12/dist/admin/");
-  exit;
-}
+  session_start();
+  if (!empty($_SESSION['adminId'])) {
+    header("Location: /CSC12/dist/admin/");
+    exit;
+  }
 
-$email_error = "";
-$password_error = "";
+  $email_error = "";
+  $password_error = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  if($_SERVER["REQUEST_METHOD"] == "POST") {
 
   $email = $_POST['email'];
   $password = $_POST['password'];
 
-  if (empty($email)) {
+  if(empty($email)) {
     $email_error =  ("please specify an email address");
   }
-  if (empty($password)) {
+  if(empty($password)) {
     $password_error = ("no password provided");
   } elseif (strlen($password) < 6) {
     $password_error = ("password should be at least 6 characters long");
@@ -56,14 +56,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </h2>
 
     <!-- ALERT DIV -->
-    <div class="w-full max-w-[500px] pointer-events-none bg-[#e5e5e5b9] backdrop-blur-sm sticky top-[10px] mb-[20px] ">
-      <div id="alert" class="hidden font-bold bg-[transparent] w-[100%] p-[5px] mr-auto border border-red-500 text-red-500 " role="alert">
+    <!-- <div class="w-full max-w-[500px] pointer-events-none bg-[#e5e5e5b9] backdrop-blur-sm sticky top-[10px] mb-[20px] ">
+      <div id="alert" class=" font-bold bg-[transparent] w-[100%] p-[5px] mr-auto border border-red-500 text-red-500 " role="alert">
         Alert
       </div>
-    </div>
+    </div> -->
+
+    <?php
+
+      if(!empty($_SESSION['message'])) {
+        require_once('../../views/alert.php');
+        $message = $_SESSION['message'];
+        showAlert($message);
+        unset($_SESSION['message']);
+        $message = '';     
+      }
+
+    ?>
 
     <!-- LOGIN FORM -->
-    <form class="w-full max-w-[500px] " action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+    <?php //echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>
+    <form class="w-full max-w-[500px] " action="adminLogin.php" method="post">
 
       <div class="w-full max-w-[500px] mb-[20px]">
         <label for="email" class="block">Email</label>
@@ -81,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ?>
       </div>
 
-      <input type="submit" text="Login" id=" admin-login" type="submit" class="bg-[#2F80ED] hover:bg-[#4091FE] w-full max-w-[500px] mb-[20px] p-[10px] rounded-lg font-[500] text-[white]" onsubmit="(e)=>e.preventDefault();" />
+      <input type="submit" value="Login" id="admin-login" type="submit" class="bg-[#2F80ED] hover:bg-[#4091FE] w-full max-w-[500px] mb-[20px] p-[10px] rounded-lg font-[500] text-[white]" onsubmit="(e)=>e.preventDefault();" />
 
     </form>
 
