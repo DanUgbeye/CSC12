@@ -2,7 +2,7 @@
 
   class Login {
 
-    function loginUser($username, $password) {
+    function adminLogin($username, $password) {
       
     }
 

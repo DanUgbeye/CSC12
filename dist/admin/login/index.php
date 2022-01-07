@@ -15,13 +15,14 @@ $email = $password = "";
 
 if (isset($_POST['submit'])) {
 
+
   $email = $_POST['email'];
   $password = $_POST['password'];
 
-  if (empty($email)) {
+  if(empty($email)) {
     $email_error =  ("please specify an email address");
   }
-  if (empty($password)) {
+  if(empty($password)) {
     $password_error = ("no password provided");
   } elseif (strlen($password) < 6) {
     $password_error = ("password should be at least 6 characters long");
