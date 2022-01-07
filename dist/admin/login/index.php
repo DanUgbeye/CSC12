@@ -29,7 +29,7 @@ if (isset($_POST['submit'])) {
     $password_error = ("password should be at least 6 characters long");
   }
 
-  $conn = mysqli_connect("localhost", "admin", "semGKlZ*0@niMecY", "csc12");
+  $conn = mysqli_connect("localhost", "deedee", "123456", "csc12");
 
   if (!$conn) {
     echo ("connection error" . mysqli_connect_error());
@@ -104,13 +104,20 @@ if (isset($_POST['submit'])) {
       ?>
     </div>
 
-    <input type="submit" name="submit" text="Login" id=" admin-login" class="bg-[#2F80ED] hover:bg-[#4091FE] w-full max-w-[500px] mb-[20px] p-[10px] rounded-lg font-[500] text-[white] cursor-pointer" />
+    <input type="submit" name="submit" value="Login" id=" admin-login" class="bg-[#2F80ED] hover:bg-[#4091FE] w-full max-w-[500px] mb-[20px] p-[10px] rounded-lg font-[500] text-[white] cursor-pointer" />
 
     <?php
-    echo ("<p class='text-red-500'>" . $user_error . "</p>");
+    // echo ("<p class='text-red-500'>" . $user_error . "</p>");
     ?>
     <?php
-    echo ("<p class='text-green-700'>" . $user . "</p>");
+    // echo ("<p class='text-green-700'>" . $user . "</p>");
+    ?>
+
+    <?php
+      if($user) {
+        include_once '/xampp/htdocs/CSC12/dist/views/popup.php';
+        showPopup($user);
+      }
     ?>
   </form>
 </div>
