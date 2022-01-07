@@ -1,11 +1,10 @@
 <?php
-// session_start();
-// if (!empty($_SESSION['adminId'])) {
-//   header("Location: /CSC12/dist/admin/");
-//   exit;
-// }
-
-// N63V]9I5A(m3_dQy 
+$ADMIN = $_COOKIE["admin"];
+print_r($ADMIN);
+if ($ADMIN) {
+  header("Location: /CSC12/dist/admin/");
+  exit();
+}
 
 $email_error = "";
 $password_error = "";
@@ -34,7 +33,7 @@ if (isset($_POST['submit'])) {
     echo ("connection error" . mysqli_connect_error());
   }
 
-  $sql = "SELECT `password` FROM `admin` WHERE `email`='" . $email . "'";
+  $sql = "SELECT `password`, `email`, `id` FROM `admin` WHERE `email`='" . $email . "'";
   $result = mysqli_query($conn, $sql);
 
   // change result into an array
@@ -54,8 +53,10 @@ if (isset($_POST['submit'])) {
       $user_error = "incorrect user credentials";
     } else {
       $user = "login sucessfull";
+      setcookie("admin", json_encode($admin[0]),  60 * 60 * 60 * 7); // expire in 7 days
+      header("location:/CSC12/dist/admin/");
+      exit();
     }
-    // print_r($admin);
   }
 }
 
@@ -94,7 +95,7 @@ if (isset($_POST['submit'])) {
 
     <div class="w-full max-w-[500px] mb-[40px] ">
       <label for="password" class="block">Password</label>
-      <input required class="w-full outline-0 rounded-lg p-[10px] px-[20px] border border-[#BDBDBD]" type="password" name="password" id="password" placeholder="password" required minlength='6' value="<?php echo ($password) ?>">
+      <input required class="w-full outline-0 rounded-lg p-[10px] px-[20px] border border-[#BDBDBD]" type="text" name="password" id="password" placeholder="password" required minlength='6' value="<?php echo ($password) ?>">
       <?php
       $length = strlen($password_error);
       if ($length > 0 && $length < 6) {
