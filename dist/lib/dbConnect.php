@@ -10,7 +10,7 @@
 
     const DATABASENAME = 'csc12';
 
-    private $conn;
+    public $conn;
 
     function __construct(){
 
