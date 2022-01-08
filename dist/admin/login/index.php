@@ -1,10 +1,10 @@
 <?php
-$ADMIN = $_COOKIE["admin"];
-print_r($ADMIN);
-if ($ADMIN) {
-  header("Location: /CSC12/dist/admin/");
-  exit();
-}
+// $ADMIN = $_COOKIE["admin"];
+// print_r($ADMIN);
+// if ($ADMIN) {
+//   header("Location: /CSC12/dist/admin/");
+//   exit();
+// }
 
 $email_error = "";
 $password_error = "";
@@ -28,7 +28,7 @@ if (isset($_POST['submit'])) {
     $password_error = ("password should be at least 6 characters long");
   }
 
-  $conn = mysqli_connect("localhost", "admin", "semGKlZ*0@niMecY", "csc12");
+  $conn = mysqli_connect("localhost", "deedee", "123456", "csc12");
 
   if (!$conn) {
     echo ("connection error" . mysqli_connect_error());
@@ -54,7 +54,7 @@ if (isset($_POST['submit'])) {
       $user_error = "incorrect user credentials";
     } else {
       $user = "login sucessfull";
-      setcookie("admin", json_encode($admin[0]),  60 * 60 * 60 * 7); // expire in 7 days
+      // setcookie("admin", json_encode($admin[0]),  60 * 60 * 60 * 7); // expire in 7 days
       header("location:/CSC12/dist/admin/");
       exit();
     }
@@ -105,13 +105,20 @@ if (isset($_POST['submit'])) {
       ?>
     </div>
 
-    <input type="submit" name="submit" text="Login" id=" admin-login" class="bg-[#2F80ED] hover:bg-[#4091FE] w-full max-w-[500px] mb-[20px] p-[10px] rounded-lg font-[500] text-[white] cursor-pointer" />
+    <input type="submit" name="submit" value="Login" id=" admin-login" class="bg-[#2F80ED] hover:bg-[#4091FE] w-full max-w-[500px] mb-[20px] p-[10px] rounded-lg font-[500] text-[white] cursor-pointer" />
 
     <?php
-    echo ("<p class='text-red-500'>" . $user_error . "</p>");
+    // echo ("<p class='text-red-500'>" . $user_error . "</p>");
     ?>
     <?php
-    echo ("<p class='text-green-700'>" . $user . "</p>");
+    // echo ("<p class='text-green-700'>" . $user . "</p>");
+    ?>
+
+    <?php
+      if($user) {
+        include_once '/xampp/htdocs/CSC12/dist/views/popup.php';
+        showPopup($user);
+      }
     ?>
   </form>
 </div>

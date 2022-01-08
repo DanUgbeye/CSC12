@@ -495,12 +495,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   right: 0px;
 }
 
-.right-\[50\%\] {
-  right: 50%;
-}
-
 .left-\[50\%\] {
   left: 50%;
+}
+
+.bottom-\[0\] {
+  bottom: 0;
+}
+
+.right-\[50\%\] {
+  right: 50%;
 }
 
 .bottom-\[20\%\] {
@@ -521,6 +525,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .right-\[10px\] {
   right: 10px;
+}
+
+.bottom-\[2re\] {
+  bottom: 2re;
+}
+
+.bottom-\[2rem\] {
+  bottom: 2rem;
 }
 
 .z-\[-1\] {
@@ -679,14 +691,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 0px;
 }
 
-.w-\[150px\] {
-  width: 150px;
-}
-
 .w-\[fit-content\] {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
+}
+
+.w-\[150px\] {
+  width: 150px;
 }
 
 .w-\[135px\] {
@@ -699,6 +711,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .max-w-\[500px\] {
   max-width: 500px;
+}
+
+.-translate-x-1\/2 {
+  --tw-translate-x: -50%;
+  transform: var(--tw-transform);
 }
 
 .rotate-\[351\.29deg\] {
@@ -873,9 +890,19 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(252 221 236 / var(--tw-bg-opacity));
 }
 
+.bg-red-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(239 68 68 / var(--tw-bg-opacity));
+}
+
 .bg-\[\#EF5D5D\] {
   --tw-bg-opacity: 1;
   background-color: rgb(239 93 93 / var(--tw-bg-opacity));
+}
+
+.bg-blue-700 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(29 78 216 / var(--tw-bg-opacity));
 }
 
 .p-\[35px\] {
@@ -1029,11 +1056,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-gray-700 {
   --tw-text-opacity: 1;
   color: rgb(55 65 81 / var(--tw-text-opacity));
-}
-
-.text-red-200 {
-  --tw-text-opacity: 1;
-  color: rgb(254 202 202 / var(--tw-text-opacity));
 }
 
 .text-\[white\] {
