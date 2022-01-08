@@ -47,7 +47,6 @@
         $data['error'] = 'Invalid email or password';
         return $data;
       }
-
     }
 
     //this searches the database for a student account and returns it if any is found
@@ -292,7 +291,6 @@
       }
 
     }
-
   }
 
 ?>
