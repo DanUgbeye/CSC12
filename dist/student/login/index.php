@@ -55,7 +55,7 @@ if (isset($_POST["submit"])) {
       $user_error = "incorrect user credentials";
     } else {
       $user = "login sucessfull";
-      // setcookie("student", json_encode($student[0]),  60 * 60 * 60 * 7); // expire in 7 days
+      setcookie("student", json_encode($student[0]),  60 * 60 * 24 * 7); // expire in 7 days
       header("location:/CSC12/dist/student/");
       exit();
     }
