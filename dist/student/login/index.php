@@ -1,8 +1,15 @@
 <?php
 session_start();
-if (!empty($_SESSION['studentId'])) {
-  header("Location: /CSC12/dist/student/");
-  exit;
+
+// if a cookie exists, redirect to the home page
+if (isset($_COOKIE["admin"])) {
+  header("HTTP/1.1 301 Moved Permanently");
+  header("Location: /CSC12/dist/admin/index.php");
+  exit();
+} elseif (isset($_COOKIE["student"])) {
+  header("HTTP/1.1 301 Moved Permanently");
+  header("Location: /CSC12/dist/student/index.php");
+  exit();
 }
 
 $matric_no = $pin = "";
@@ -42,9 +49,9 @@ if (isset($_POST["submit"])) {
     // free memory
     mysqli_free_result($result);
 
-    // check if passwords match
-    $password_match = MD5($password) === $student[0]['password'];
-    if (!$password_match) {
+    // check if pins match
+    $pin_match = $pin === $student[0]['pin'];
+    if (!$pin_match) {
       $user_error = "incorrect user credentials";
     } else {
       $user = "login sucessfull";

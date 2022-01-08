@@ -1,10 +1,15 @@
 <?php
-// $ADMIN = $_COOKIE["admin"];
-// print_r($ADMIN);
-// if ($ADMIN) {
-//   header("Location: /CSC12/dist/admin/");
-//   exit();
-// }
+
+// if a cookie exists, redirect to the home page
+if (isset($_COOKIE["admin"])) {
+  header("HTTP/1.1 301 Moved Permanently");
+  header("Location: /CSC12/dist/admin/index.php");
+  exit();
+} elseif (isset($_COOKIE["student"])) {
+  header("HTTP/1.1 301 Moved Permanently");
+  header("Location: /CSC12/dist/student/index.php");
+  exit();
+}
 
 $email_error = "";
 $password_error = "";
@@ -19,10 +24,10 @@ if (isset($_POST['submit'])) {
   $email = $_POST['email'];
   $password = $_POST['password'];
 
-  if(empty($email)) {
+  if (empty($email)) {
     $email_error =  ("please specify an email address");
   }
-  if(empty($password)) {
+  if (empty($password)) {
     $password_error = ("no password provided");
   } elseif (strlen($password) < 6) {
     $password_error = ("password should be at least 6 characters long");
@@ -54,13 +59,13 @@ if (isset($_POST['submit'])) {
       $user_error = "incorrect user credentials";
     } else {
       $user = "login sucessfull";
-      // setcookie("admin", json_encode($admin[0]),  60 * 60 * 60 * 7); // expire in 7 days
+      setcookie("admin", json_encode(array("email" => $admin[0]["email"], "id" => $admin[0]["id"])),  time() + 60 * 60 * 24 * 7, "/"); // expire in 7 days
+      header("HTTP/1.1 301 Moved Permanently");
       header("location:/CSC12/dist/admin/");
       exit();
     }
   }
 }
-
 ?>
 
 <?php include_once "/xampp/htdocs/CSC12/dist/templates/header.php" ?>
@@ -85,7 +90,7 @@ if (isset($_POST['submit'])) {
   </div>
 
   <!-- LOGIN FORM -->
-  <form class="w-full max-w-[500px] " action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="(e)=>e.preventDefault()">
+  <form class="w-full max-w-[500px] " action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="e.preventDefault()">
 
     <div class="w-full max-w-[500px] mb-[20px]">
       <label for="email" class="block">Email</label>
@@ -115,10 +120,10 @@ if (isset($_POST['submit'])) {
     ?>
 
     <?php
-      if($user) {
-        include_once '/xampp/htdocs/CSC12/dist/views/popup.php';
-        showPopup($user);
-      }
+    if ($user) {
+      include_once '/xampp/htdocs/CSC12/dist/views/popup.php';
+      showPopup($user);
+    }
     ?>
   </form>
 </div>
