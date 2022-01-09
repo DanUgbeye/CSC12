@@ -1,73 +1,77 @@
 <?php
 
-// if a cookie exists, redirect to the home page
-if (isset($_COOKIE["admin"])) {
-  header("HTTP/1.1 301 Moved Permanently");
-  header("Location: /CSC12/dist/admin/index.php");
-  exit();
-} elseif (isset($_COOKIE["student"])) {
-  header("HTTP/1.1 301 Moved Permanently");
-  header("Location: /CSC12/dist/student/index.php");
-  exit();
-}
-
-$email_error = "";
-$password_error = "";
-$user_error = "";
-$user = "";
-
-$email = $password = "";
-
-if (isset($_POST['submit'])) {
-
-
-  $email = $_POST['email'];
-  $password = $_POST['password'];
-
-  if (empty($email)) {
-    $email_error =  ("please specify an email address");
-  }
-  if (empty($password)) {
-    $password_error = ("no password provided");
-  } elseif (strlen($password) < 6) {
-    $password_error = ("password should be at least 6 characters long");
+  // if a cookie exists, redirect to the home page
+  if (isset($_COOKIE["admin"])) {
+    header("HTTP/1.1 301 Moved Permanently");
+    header("Location: /CSC12/dist/admin/index.php");
+    exit();
+  } elseif (isset($_COOKIE["student"])) {
+    header("HTTP/1.1 301 Moved Permanently");
+    header("Location: /CSC12/dist/student/index.php");
+    exit();
   }
 
-  $conn = mysqli_connect("localhost", "deedee", "123456", "csc12");
+  $email_error = "";
+  $password_error = "";
+  $user_error = "";
+  $user = "";
 
-  if (!$conn) {
-    echo ("connection error" . mysqli_connect_error());
-  }
+  $email = $password = "";
 
-  $sql = "SELECT `password`, `email`, `id` FROM `admin` WHERE `email`='" . $email . "'";
-  $result = mysqli_query($conn, $sql);
+  if (isset($_POST['submit'])) {
 
-  // change result into an array
-  $admin = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-  // if no admin is found
-  if (count($admin) < 1) {
-    $user_error = "no user found";
-  } else {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
-    // free memory
-    mysqli_free_result($result);
+    if (empty($email)) {
+      $email_error =  ("please specify an email address");
+    }
+    if (empty($password)) {
+      $password_error = ("no password provided");
+    } elseif (strlen($password) < 6) {
+      $password_error = ("password should be at least 6 characters long");
+    }
 
-    // check if passwords match
-    $password_match = MD5($password) === $admin[0]['password'];
-    if (!$password_match) {
-      $user_error = "incorrect user credentials";
+    $conn = mysqli_connect("localhost", "deedee", "123456", "csc12");
+
+    if (!$conn) {
+      echo ("connection error" . mysqli_connect_error());
+    }
+
+    $sql = "SELECT `password`, `email`, `id` FROM `admin` WHERE `email`='" . $email . "'";
+    $result = mysqli_query($conn, $sql);
+
+    // change result into an array
+    $admin = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    // if no admin is found
+    if (count($admin) < 1) {
+      $user_error = "no user found";
     } else {
-      $user = "login sucessfull";
-      setcookie("admin", json_encode(array("email" => $admin[0]["email"], "id" => $admin[0]["id"])),  time() + 60 * 60 * 24 * 7, "/"); // expire in 7 days
-      header("HTTP/1.1 301 Moved Permanently");
-      header("location:/CSC12/dist/admin/");
-      exit();
+
+      // free memory
+      mysqli_free_result($result);
+
+      // check if passwords match
+      $password_match = MD5($password) === $admin[0]['password'];
+      if (!$password_match) {
+        $user_error = "incorrect user credentials";
+      } else {
+        $user = "login sucessfull";
+        setcookie("admin", json_encode(array("email" => $admin[0]["email"], "id" => $admin[0]["id"])),  time() + 60 * 60 * 24 * 7, "/"); // expire in 7 days
+        header("HTTP/1.1 301 Moved Permanently");
+        header("location:/CSC12/dist/admin/");
+        exit();
+      }
     }
   }
-}
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
+
+<?php include_once "/xampp/htdocs/CSC12/dist/templates/header.php" ?>
 
 <div class="main h-full w-full mt-[50px] flex flex-col items-center justify-center">
 
@@ -99,7 +103,7 @@ if (isset($_POST['submit'])) {
 
     <div class="w-full max-w-[500px] mb-[40px] ">
       <label for="password" class="block">Password</label>
-      <input required class="w-full outline-0 rounded-lg p-[10px] px-[20px] border border-[#BDBDBD]" type="text" name="password" id="password" placeholder="password" required minlength='6' value="<?php echo ($password) ?>">
+      <input required class="w-full outline-0 rounded-lg p-[10px] px-[20px] border border-[#BDBDBD]" type="password" name="password" id="password" placeholder="password" required minlength='6' value="<?php echo ($password) ?>">
       <?php
       // $length = strlen($password_error);
       // if ($length > 0 && $length < 6) {
