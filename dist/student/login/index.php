@@ -54,13 +54,13 @@
         if (!$pin_match) {
           $user_error = "incorrect user credentials";
         } else {
-          $user = "login sucessfull";
+          $user = "login sucessful";
           setcookie("student", json_encode($student[0]),  60 * 60 * 24 * 7); // expire in 7 days
           header("location:/CSC12/dist/student/");
           exit();
         }
       }
-      
+
     }
 
   }
