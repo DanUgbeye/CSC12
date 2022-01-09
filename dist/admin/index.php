@@ -122,10 +122,8 @@ if (!isset($_COOKIE["admin"])) {
 
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $level = $_POST["level"];
-        echo $level;
       }else {
         $level = 100;
-        echo $level;
       }
 
     ?>
