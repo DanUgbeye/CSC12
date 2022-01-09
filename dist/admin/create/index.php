@@ -96,8 +96,10 @@ if (isset($_POST["submit"])) {
         <li class="block mb-[20px] ">
           <a href="/CSC12/dist/admin/update/" class="block p-[5px] h-full hover:bg-gray-300 hover:rounded ">Update</a>
         </li>
-        <li>
-          <button name="logout" onclick="document.cookie = 'admin=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/'; window.location.replace(`/CSC12/dist/admin/login/index.php`)">logout</button>
+        <li  class="block mb-[20px] ">
+          <button  class="text-[#5D5FEF] block p-[5px] text-left w-full hover:bg-gray-300 hover:rounded " name="logout" onclick="document.cookie = 'admin=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/'; window.location.replace(`/CSC12/dist/admin/login/index.php`)">
+            Logout
+          </button>
         </li>
       </ul>
 
