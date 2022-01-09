@@ -44,7 +44,7 @@ if (!isset($_COOKIE["admin"])) {
           <a href="/CSC12/dist/admin/update/" class="block p-[5px] h-full hover:bg-gray-300 hover:rounded ">Update</a>
         </li>
         <li  class="block mb-[20px] ">
-          <button  class="text-[#5D5FEF] " name="logout" onclick="document.cookie = 'admin=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/'; window.location.replace(`/CSC12/dist/admin/login/index.php`)">
+          <button  class="text-[#5D5FEF] block p-[5px] text-left w-full hover:bg-gray-300 hover:rounded " name="logout" onclick="document.cookie = 'admin=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/'; window.location.replace(`/CSC12/dist/admin/login/index.php`)">
             Logout
           </button>
         </li>
@@ -133,11 +133,11 @@ if (!isset($_COOKIE["admin"])) {
     <form id="form-level" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" onsubmit="(e)=>e.preventDefault()">
       <!-- REMEMBER TO CHANGE THE ONCHANGE EVENT -->
       <!-- NA HERE THE PROBLEM DEY -->
-      <select onchange=" () => { document.querySelector('#form-level').submit(); console.log('submit'); }" class=" ml-auto flex w-[100px] outline-0 rounded p-[10px] bg-[transparent] border border-[#BDBDBD] " name="level" id="level">
-        <option id="option-1" class="bg-[inherit] " value="100">Yr 1</option>
-        <option id="option-2" class="bg-[inherit] " value="200">Yr 2</option>
-        <option id="option-3" class="bg-[inherit] " value="300">Yr 3</option>
-        <option id="option-3" class="bg-[inherit] " value="400">Yr 4</option>
+      <select name="level" id="level" value="<?php echo $level; ?>" onchange="document.querySelector('#form-level').submit()" class=" ml-auto flex w-[100px] outline-0 rounded p-[10px] bg-[transparent] border border-[#BDBDBD] ">
+        <option  value="100">Yr 1</option>
+        <option  value="200">Yr 2</option>
+        <option  value="300">Yr 3</option>
+        <option  value="400">Yr 4</option>
       </select>
 
     </form>
@@ -213,7 +213,6 @@ if (!isset($_COOKIE["admin"])) {
 
             }
 
-            
           ?>
 
       </div>
@@ -221,6 +220,13 @@ if (!isset($_COOKIE["admin"])) {
     </div>
 
   </div>
+  <?php
+    echo('
+      <script>
+        document.querySelector("#level").value = '.$level.'
+      </script>
+    ');
+  ?>
 
   <script src="/CSC12/dist/scripts/ui.js"></script>
   <!-- <script src="/CSC12/dist/scripts/login.js"></script>
