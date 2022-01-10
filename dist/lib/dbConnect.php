@@ -252,13 +252,18 @@
     function getAllStudents($level) {
 
       $data = array();
-      $query = "SELECT matric_no, surname, first_name, middle_name, nationality,
-       state, lga, level FROM students WHERE level = '".$level."'";
+      $query = "SELECT id, matric_no, surname, first_name, middle_name, nationality,
+       state, lga, dob, level FROM students WHERE level = '".$level."'";
       $res = $this->conn->query($query);
 
       if($res->num_rows > 0) {
-        $resp = $res->fetch_array();
-        echo $resp[1];
+        $no = 0;
+        while($row = $res->fetch_assoc()) {
+          $resp[$no] = $row;
+          // echo $resp[$no]['matric_no'];
+          $no++;
+        }
+        
         $data['status'] = true;
         $data['result'] = $resp;
         return $data;
