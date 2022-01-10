@@ -1,0 +1,1 @@
+INSERT INTO `students` (`id`, `matric_no`, `surname`, `first_name`, `middle_name`, `dob`, `nationality`, `state`, `lga`, `level`, `pin`) VALUES (NULL, '17/184145016TR', 'Iyoriobhe', 'Wisdom', 'Ose', '2001-12-03', 'Nigerian', 'State', 'Benin', '300', '000000000000');

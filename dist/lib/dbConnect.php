@@ -258,6 +258,7 @@
 
       if($res->num_rows > 0) {
         $resp = $res->fetch_array();
+        echo $resp[1];
         $data['status'] = true;
         $data['result'] = $resp;
         return $data;

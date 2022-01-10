@@ -94,7 +94,7 @@
 
     <div class="w-full max-w-[500px] mb-[20px] ">
       <label for="pin" class="block">Pin</label>
-      <input class="w-full outline-0 rounded-lg p-[10px] border border-[#BDBDBD]" type="text" name="pin" id="pin" placeholder="0000-0000-0000-0000" value="<?php echo ($pin) ?>" minlength="12" maxlength="12" required>
+      <input class="w-full outline-0 rounded-lg p-[10px] border border-[#BDBDBD]" type="text" name="pin" id="pin" placeholder="000-000-000-000" value="<?php echo ($pin) ?>" minlength="12" maxlength="12" required>
       <?php echo ("<p class='text-red-500'>" . $pin_error . "</p>") ?>
     </div>
 
