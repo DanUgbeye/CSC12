@@ -1,3 +1,15 @@
+<?php
+  $username = "";
+  if (!isset($_COOKIE["admin"])) {
+    header("HTTP/1.1 301 Moved Permanently");
+    header("Location: /CSC12/dist/admin/login/");
+    exit();
+  } else {
+    $admin = json_decode($_COOKIE["admin"]);
+    $username = $admin->email;
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -30,10 +42,18 @@
           <li class="block mb-[20px] ">
             <a href="/CSC12/dist/admin/update/" class="block p-[5px] h-full hover:bg-gray-300 hover:rounded  bg-gray-200 font-[700] text-[#5D5FEF] ">Update</a>
           </li>
+          <li  class="block mb-[20px] ">
+            <button  class="text-[#5D5FEF] block p-[5px] text-left w-full hover:bg-gray-300 hover:rounded " name="logout" onclick="document.cookie = 'admin=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/'; window.location.replace(`/CSC12/dist/admin/login/index.php`)">
+              Logout
+            </button>
+          </li>
         </ul>
 
         <div class="absolute bottom-0 left-0 p-[10px] w-full ">
-          <h4 class="text-[#5D5FEF] text-center" >Username</h4>
+          <!-- link to update page -->
+          <a href="" class="text-[#5D5FEF] text-center">
+            <?php echo ($username) ?>
+          </a>
         </div>
       </nav>
     </div>

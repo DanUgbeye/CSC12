@@ -46,50 +46,115 @@ if (!isset($_COOKIE["admin"])) {
 
   <div class="p-[10px] ">
 
-    <!-- REMEMBER TO CHANGE THE ONCHANGE EVENT -->
-    <select onchange=" " class=" ml-auto flex w-[100px] outline-0 rounded p-[10px] bg-[transparent] border border-[#BDBDBD] " name="level" id="level">
-      <option id="option-1" class="bg-[inherit] " value="100">Yr 1</option>
-      <option id="option-2" class="bg-[inherit] " value="200">Yr 2</option>
-      <option id="option-3" class="bg-[inherit] " value="300">Yr 3</option>
-      <option id="option-3" class="bg-[inherit] " value="400">Yr 4</option>
-    </select>
+    <?php
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+      $level = $_POST["level"];
+    } else {
+      $level = 100;
+    }
+
+    ?>
+
+    <form id="form-level" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" onsubmit="(e)=>e.preventDefault()">
+
+      <select name="level" id="level" value="<?php echo $level; ?>" onchange="document.querySelector('#form-level').submit()" class=" ml-auto flex w-[100px] outline-0 rounded p-[10px] bg-[transparent] border border-[#BDBDBD] ">
+        <option value="100">Yr 1</option>
+        <option value="200">Yr 2</option>
+        <option value="300">Yr 3</option>
+        <option value="400">Yr 4</option>
+      </select>
+
+    </form>
 
 
     <div class=" h-[fit-content] p-0 mt-[20px] border border-[#BDBDBD] overflow-hiddden rounded-lg ">
 
-      <table id=" table" class="relative w-full">
+      <?php
 
-        <thead class="w-full bg-gray-300  text-left font-[500]  ">
-          <td class="p-[10px] rounded-tl-lg ">Matric No</td>
-          <td class="p-[10px] rounded-tr-lg md:rounded-[0]">Name</td>
-          <td class="md:rounded-tr-lg lg:rounded-[0] w-0 invisible absolute md:relative overflow-hidden pointer-events-none md:pointer-events-auto md:visible md:w-[fit-content] ">Nationality</td>
-          <td class="w-0 invisible absolute lg:relative overflow-hidden pointer-events-none lg:pointer-events-auto lg:visible lg:w-[fit-content] ">State of Origin</td>
-          <td class="rounded-tr-lg w-0 invisible absolute lg:relative overflow-hidden pointer-events-none lg:pointer-events-auto lg:visible lg:w-[fit-content] ">Date of Birth</td>
-        </thead>
+      $students_data = $adminOps->getAllStudents($level);
+      // if($students_data['status']) echo($students_data['result'][0]['surname']);
 
-        <tbody>
-          <!-- <tr class="p-[27px] text-left border-t border-[#BDBDBD] ">
-                <td class="p-[10px] ">17/184145015</td>
-                <td class="p-[10px] rounded-tr-lg md:rounded-[0]">Iyoriobhe Wisdom</td>
-                <td class="md:rounded-tr-lg lg:rounded-[0] w-0 invisible absolute md:relative overflow-hidden pointer-events-none md:pointer-events-auto md:visible md:w-[fit-content] ">Nigerian</td>
-                <td class="w-0 invisible absolute lg:relative overflow-hidden pointer-events-none lg:pointer-events-auto lg:visible lg:w-[fit-content] ">Edo</td>
-                <td class="w-0 invisible absolute lg:relative overflow-hidden pointer-events-none lg:pointer-events-auto lg:visible lg:w-[fit-content] ">03/12/2001</td>
-              </tr>
-  
-              <tr class="p-[27px] text-left border-t border-[#BDBDBD] ">
-                <td class="p-[10px] ">17/184145016TR</td>
-                <td class="p-[10px] rounded-tr-lg md:rounded-[0]">Patrick Okokon</td>
-                <td class="md:rounded-tr-lg lg:rounded-[0] w-0 invisible absolute md:relative overflow-hidden pointer-events-none md:pointer-events-auto md:visible md:w-[fit-content] ">Nigerian</td>
-                <td class="w-0 invisible absolute lg:relative overflow-hidden pointer-events-none lg:pointer-events-auto lg:visible lg:w-[fit-content] ">Akwa Ibom</td>
-                <td class="w-0 invisible absolute lg:relative overflow-hidden pointer-events-none lg:pointer-events-auto lg:visible lg:w-[fit-content] ">300BC</td>
-              </tr> -->
-        </tbody>
+      echo ('
+            
+              <table id="table" class="relative w-full">
 
-      </table>
+                <thead class="w-full bg-gray-300  text-left font-[500]  ">
+                  <td class="p-[10px] rounded-tl-lg ">Matric No</td>
+                  <td class="p-[10px] rounded-tr-lg md:rounded-[0]">Name</td>
+                  <td class="md:rounded-tr-lg lg:rounded-[0] w-0 invisible absolute lg:relative overflow-hidden pointer-events-none lg:pointer-events-auto lg:visible lg:w-[fit-content] ">Nationality</td>
+                  <td class="w-0 invisible absolute lg:relative overflow-hidden pointer-events-none lg:pointer-events-auto lg:visible lg:w-[fit-content] ">State of Origin</td>
+                  <td class="w-0 invisible absolute lg:relative overflow-hidden pointer-events-none lg:pointer-events-auto lg:visible lg:w-[fit-content] ">Date of Birth</td>
+                  <td class="rounded-tr-lg w-0 invisible absolute md:relative overflow-hidden pointer-events-none md:pointer-events-auto md:visible md:w-[fit-content] ">Pin</td>
+                  </thead>
+          
+                <tbody>
+            
+            ');
+
+      //if there are students in the selected level, display them
+      if ($students_data['status']) {
+
+        $no_of_students = count($students_data['result']);
+        for ($x = 0; $x < $no_of_students; $x++) {
+          echo ('
+                
+                  <tr class="p-[27px] text-left border-t border-[#BDBDBD] ">
+                    <td class="p-[10px] ">
+                      ' . $students_data['result'][$x]['matric_no'] . '
+                    </td>
+                    <td class="p-[10px] rounded-tr-lg md:rounded-[0]">
+                      ' . $students_data['result'][$x]['surname'] . ' ' . $students_data['result'][$x]['first_name'] . '
+                    </td>
+                    <td class="w-0 invisible absolute lg:relative overflow-hidden pointer-events-none lg:pointer-events-auto lg:visible md:w-[fit-content] " >
+                    ' . $students_data['result'][$x]['nationality'] . '
+                    </td>
+                    <td class="w-0 invisible absolute lg:relative overflow-hidden pointer-events-none lg:pointer-events-auto lg:visible md:w-[fit-content] " >
+                      ' . $students_data['result'][$x]['state'] . '
+                    </td>
+                    <td class="w-0 invisible absolute lg:relative overflow-hidden pointer-events-none lg:pointer-events-auto lg:visible md:w-[fit-content] " >
+                      ' . $students_data['result'][$x]['dob'] . '
+                    </td>
+                    <td class="md:rounded-tr-lg lg:rounded-[0] w-0 invisible absolute md:relative overflow-hidden pointer-events-none md:pointer-events-auto md:visible md:w-[fit-content] " >
+                      ' . $students_data['result'][$x]['pin'] . '
+                    </td>
+                  </tr>
+
+                ');
+        }
+      }
+
+      echo ('
+            
+                </tbody>
+              </table>
+            
+            ');
+
+      //if there are no students in that level this is displayed
+      if (!$students_data['status'] && $students_data['error'] == 'no students in this level') {
+
+        echo ('
+                <div>
+                 <p class="p-[10px] text-[24px] text-center text-gray-400 ">No students in this level</p>
+                </div>
+              ');
+      }
+
+      ?>
 
     </div>
 
   </div>
+
+</div>
+<?php
+echo ('
+      <script>
+        document.querySelector("#level").value = ' . $level . '
+      </script>
+    ');
+?>
 
 </div>
 
