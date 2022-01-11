@@ -1,3 +1,15 @@
+<?php
+  $matric_no = "";
+  if (!isset($_COOKIE["student"])) {
+    header("HTTP/1.1 301 Moved Permanently");
+    header("Location: /CSC12/dist/student/login/");
+    exit();
+  } else {
+    $student = json_decode($_COOKIE["student"]);
+    $matric_no = $student->matric_no;
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -26,10 +38,18 @@
               Profile
             </a>
           </li>
+          <li  class="block mb-[20px] ">
+            <button  class="text-[#5D5FEF] block p-[5px] text-left w-full hover:bg-gray-300 hover:rounded " name="logout" onclick="document.cookie = 'student=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/'; window.location.replace(`/CSC12/dist/student/login/`)">
+              Logout
+            </button>
+          </li>
         </ul>
 
         <div class="absolute bottom-0 left-0 p-[10px] w-full ">
-          <h4 id="dis-mat-no" class="text-[#5D5FEF] text-center" ></h4>
+          <!-- link to update page -->
+          <a href="" class="text-[#5D5FEF] text-center">
+            <?php echo ($matric_no); ?>
+          </a>
         </div>
       </nav>
     </div>

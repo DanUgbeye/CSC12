@@ -4,16 +4,16 @@
   // if a cookie exists, redirect to the home page
   if (isset($_COOKIE["admin"])) {
     header("HTTP/1.1 301 Moved Permanently");
-    header("Location: /CSC12/dist/admin/index.php");
+    header("Location: /CSC12/dist/admin/");
     exit();
   } elseif (isset($_COOKIE["student"])) {
     header("HTTP/1.1 301 Moved Permanently");
-    header("Location: /CSC12/dist/student/index.php");
+    header("Location: /CSC12/dist/student/");
     exit();
   }
 
   $matric_no = $pin = "";
-  $matric_error = $pin_error = $user_error = "";
+  $matric_error = $pin_error = $user_error = $user = "";
 
   if (isset($_POST["submit"])) {
     $matric_no = $_POST["matric-no"];
@@ -55,7 +55,8 @@
           $user_error = "incorrect user credentials";
         } else {
           $user = "login sucessful";
-          setcookie("student", json_encode($student[0]),  60 * 60 * 24 * 7); // expire in 7 days
+          echo "I'm entering here";
+          setcookie("student", json_encode(array('matric_no' => $student[0]["matric_no"], 'id' => $student[0]["id"])), time() + 60 * 60 * 24 * 7, "/"); // expire in 7 days
           header("location:/CSC12/dist/student/");
           exit();
         }
@@ -70,6 +71,18 @@
 <html lang="en">
 
 <?php include_once "/xampp/htdocs/CSC12/dist/templates/header.php" ?>
+
+<nav class="flex space-between" >
+    <div class="">
+      <img src="/CSC12/dist/res/images/logo.svg" alt="Logo">
+    </div>
+
+    <div class="block ml-auto p-6" >
+      <a class="block p-[10px] font-bold " href="/CSC12/dist/">
+        <img src="/CSC12/dist/res/images/back.svg" alt="back">  
+      </a>
+    </div>
+  </nav>
 
 <div class="main h-full w-full max-w-[500px] mx-auto mt-[50px] flex flex-col items-center justify-center">
 
@@ -103,7 +116,13 @@
 
   </form>
 
-
+  <?php
+    // this displays the login successful message
+      if ($user) {
+        include_once '/xampp/htdocs/CSC12/dist/views/popup.php';
+        showPopup($user);
+      }
+    ?>
 </div>
 
 <script src="/CSC12/dist/scripts/ui.js"></script>

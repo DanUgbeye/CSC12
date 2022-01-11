@@ -1,13 +1,13 @@
 <?php
-$username = "";
-if (!isset($_COOKIE["admin"])) {
-  header("HTTP/1.1 301 Moved Permanently");
-  header("Location: /CSC12/dist/admin/login/");
-  exit();
-} else {
-  $admin = json_decode($_COOKIE["admin"]);
-  $username = $admin->email;
-}
+  $username = "";
+  if (!isset($_COOKIE["admin"])) {
+    header("HTTP/1.1 301 Moved Permanently");
+    header("Location: /CSC12/dist/admin/login/");
+    exit();
+  } else {
+    $admin = json_decode($_COOKIE["admin"]);
+    $username = $admin->email;
+  }
 ?>
 
 <!DOCTYPE html>

@@ -12,11 +12,6 @@
 
 <body class="min-h-[100vh] bg-[#E5E5E5] p-[15px] sm:py-[46px] sm:px-[63px]">
 
-  <nav>
-    <div class="">
-      <img src="/CSC12/dist/res/images/logo.svg" alt="">
-    </div>
-  </nav>
 
 
 

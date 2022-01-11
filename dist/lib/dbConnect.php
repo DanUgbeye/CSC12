@@ -268,11 +268,7 @@
       $res = $this->conn->query($query);
 
       if($res->num_rows > 0) {
-        $no = 0;
-        while($row = $res->fetch_assoc()) {
-          $resp[$no] = $row;
-          $no++;
-        }
+        $resp = $res->fetch_all(MYSQLI_ASSOC);
         $data['status'] = true;
         $data['result'] = $resp;
         $res->free_result();
