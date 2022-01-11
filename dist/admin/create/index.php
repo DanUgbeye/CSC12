@@ -3,10 +3,11 @@ $username = "";
 
 $surname = $firstname = $middlename = $dob = $nationality = $state = $lga = $matric_no = "";
 $level = 100;
+$error_message = $message = '';
 
 if (!isset($_COOKIE["admin"])) {
   header("HTTP/1.1 301 Moved Permanently");
-  header("Location: /CSC12/dist/admin/login/index.php");
+  header("Location: /CSC12/dist/admin/login/");
   exit();
 } else {
   $admin = json_decode($_COOKIE["admin"]);
@@ -31,31 +32,49 @@ if (isset($_POST["submit"])) {
     echo ("connection error" . mysqli_connect_error());
   }
 
-  // create a new pin based on current time
-  $pin = substr(MD5(time()), 0, 12);
-
+  
   // query for checking if a user with the pin already exists in the db
-  $sql = "SELECT `pin` FROM `students` WHERE `pin`='" . $pin . "'";
-  $result = mysqli_query($conn, $sql);
-  $existing_student = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
-  // while pin isn't unique always generate new pins until a unique pin is gotten
-  while (count($existing_student) === 1) {
+  do {
+    // create a new pin based on current time
     $pin = substr(MD5(time()), 0, 12);
     $sql = "SELECT `pin` FROM `students` WHERE `pin`='" . $pin . "'";
     $result = mysqli_query($conn, $sql);
-    $existing_student =
-      mysqli_fetch_all($result, MYSQLI_ASSOC);
+    $existing_student = mysqli_fetch_all($result, MYSQLI_ASSOC);
+  } while (count($existing_student) > 0);
+
+   // free system resources
+   mysqli_free_result($result);
+
+  //creating the student data array
+  $student['matric_no'] = $matric_no;
+  $student['surname'] = $surname;
+  $student['first_name'] = $firstname;
+  $student['middle_name'] = $middlename;
+  $student['dob'] = $dob;
+  $student['nationality'] = $nationality;
+  $student['state'] = $state;
+  $student['lga'] = $lga;
+  $student['level'] = $level;
+  $student['pin'] = $pin;
+
+  require_once "/xampp/htdocs/CSC12/dist/lib/dbConnect.php";
+  $adminOps = new adminDb();
+
+  $res = $adminOps->createStudent($student);
+
+  if(($res['status'])) {
+    $message = ("Student created");
+  } else {
+    $error_message = $res['error'];
   }
+  // // query for saving user data
+  // $sql = "INSERT INTO `students`(`pin`, `matric_no`, `surname`, `first_name`, `middle_name`, `dob`, `nationality`,
+  //  `state`, `lga`, `level`) 
+  //  VALUES(" . "'" . $pin . "','" . $matric_no . "'," . "'" . $surname . "'," . "'" . $firstname . "'," . "'" 
+  //  . $middlename . "'," . "'" . $dob . "'," . "'" . $nationality . "'," . "'" . $state . "'," . "'" . $lga . "'," . "'" 
+  //  . $level . "')";
 
-  // free system resources
-  mysqli_free_result($result);
-
-  // query for saving user data
-  $sql = "INSERT INTO `students`(`pin`, `matric_no`, `surname`, `first_name`, `middle_name`, `dob`, `nationality`, `state`, `lga`, `level`) VALUES(" . "'" . $pin . "','" . $matric_no . "'," . "'" . $surname . "'," . "'" . $firstname . "'," . "'" . $middlename . "'," . "'" . $dob . "'," . "'" . $nationality . "'," . "'" . $state . "'," . "'" . $lga . "'," . "'" . $level . "')";
-
-  $result = mysqli_query($conn, $sql);
-  echo ("user created sucessfully");
+  // $result = mysqli_query($conn, $sql);
 
   // reset form values
   $surname = $firstname = $middlename = $dob = $nationality = $state = $lga = $matric_no = "";
@@ -114,14 +133,15 @@ if (isset($_POST["submit"])) {
   <!-- RIGHT COLUMN -->
   <div class="col-start-2 col-span-1 p-[20px] bg-[#E5E5E5] relative">
 
-    <!-- ALERT DIV -->
-    <div class="w-full pointer-events-none bg-[#e5e5e5b9] backdrop-blur-sm sticky top-[10px] mb-[20px] ">
-      <div id="alert" class="hidden font-bold bg-[transparent] w-[100%] p-[5px] mr-auto border border-red-500 text-red-500 " role="alert">
-        Alert
-      </div>
-    </div>
+    <?php
+      //this displays the error
+      if(!empty($error_message)) {
+        require_once "/xampp/htdocs/CSC12/dist/views/alert.php";
+        showAlert($error_message);
+      }
+    ?>
 
-    <form action="<?php echo (htmlspecialchars($_SERVER["PHP_SELF"])) ?>" class="c" method="post">
+    <form action="<?php echo (htmlspecialchars($_SERVER["PHP_SELF"])) ?>" class="" method="post">
 
       <!-- Personal Info form group -->
       <div class=" mb-[20px] ">
@@ -133,43 +153,43 @@ if (isset($_POST["submit"])) {
           <!-- Surname input field -->
           <div class="md:col-start-1 md:col-span-3 md:row-start-1 md:row-span-1  mb-[20px] md:mb-0 ">
             <label for="surname" class="block">Surname</label>
-            <input class="w-full outline-0 rounded p-[10px] border border-[#BDBDBD]" type="text" name="surname" id="surname" value="<?php echo ($surname) ?>" required placeholder="surname">
+            <input required class="w-full outline-0 rounded p-[10px] border border-[#BDBDBD]" type="text" name="surname" id="surname" value="<?php echo ($surname) ?>" required placeholder="surname">
           </div>
 
           <!-- Firstname input field -->
           <div class="md:col-start-4 md:col-span-3 md:row-start-1 md:row-span-1  mb-[20px] md:mb-0 ">
             <label for="firstname" class="block">Firstname</label>
-            <input class="w-full outline-0 rounded p-[10px] border border-[#BDBDBD] " type="text" name="firstname" id="firstname" placeholder="firstname" value="<?php echo ($firstname) ?>" required>
+            <input required class="w-full outline-0 rounded p-[10px] border border-[#BDBDBD] " type="text" name="firstname" id="firstname" placeholder="firstname" value="<?php echo ($firstname) ?>" required>
           </div>
 
           <!-- Middlename input field -->
           <div class="md:col-start-1 md:col-span-3 md:row-start-2 md:row-span-1  mb-[20px] md:mb-0 ">
             <label for="middlename" class="block">Middlename</label>
-            <input class="w-full outline-0 rounded p-[10px] border border-[#BDBDBD] " type="text" name="middlename" id="middlename" placeholder="middlename" value="<?php echo ($middlename) ?>" required>
+            <input required class="w-full outline-0 rounded p-[10px] border border-[#BDBDBD] " type="text" name="middlename" id="middlename" placeholder="middlename" value="<?php echo ($middlename) ?>" required>
           </div>
 
           <!-- date of birth input field -->
           <div class="md:col-start-4 md:col-span-3 md:row-start-2 md:row-span-1  mb-[20px] md:mb-0 ">
             <label for="d-o-b" class="block">Date of Birth</label>
-            <input class="w-full outline-0 rounded p-[10px] bg-[white] placeholder:text-[#BDBDBD] border border-[#BDBDBD] " type="date" name="dob" id="d-o-b" value="<?php echo ($dob) ?>" required>
+            <input required class="w-full outline-0 rounded p-[10px] bg-[white] placeholder:text-[#BDBDBD] border border-[#BDBDBD] " type="date" name="dob" id="d-o-b" value="<?php echo ($dob) ?>" required>
           </div>
 
           <!-- Nationality input field -->
           <div class="md:col-start-1 md:col-span-2 md:row-start-3 md:row-span-1  mb-[20px] md:mb-0 ">
             <label for="nationality" class="block">Nationality</label>
-            <input class="w-full outline-0 rounded p-[10px] placeholder:text-[#BDBDBD] border border-[#BDBDBD] " type="text" name="nationality" id="nationality" placeholder="nationality" value="<?php echo ($nationality) ?>" required>
+            <input required class="w-full outline-0 rounded p-[10px] placeholder:text-[#BDBDBD] border border-[#BDBDBD] " type="text" name="nationality" id="nationality" placeholder="nationality" value="<?php echo ($nationality) ?>" required>
           </div>
 
           <!-- State input field -->
           <div class="md:col-start-3 md:col-span-2 md:row-start-3 md:row-span-1  mb-[20px] md:mb-0 ">
             <label for="state" class="block">State</label>
-            <input class="w-full outline-0 rounded p-[10px] placeholder:text-[#BDBDBD] border border-[#BDBDBD] " type="text" name="state" id="state" placeholder="state" value="<?php echo ($state) ?>" required>
+            <input required class="w-full outline-0 rounded p-[10px] placeholder:text-[#BDBDBD] border border-[#BDBDBD] " type="text" name="state" id="state" placeholder="state" value="<?php echo ($state) ?>" required>
           </div>
 
           <!-- LGA input field -->
           <div class="md:col-start-5 md:col-span-2 md:row-start-3 md:row-span-1  mb-[20px] md:mb-0 ">
             <label for="lga" class="block">LGA</label>
-            <input class="w-full outline-0 rounded p-[10px] placeholder:text-[#BDBDBD] border border-[#BDBDBD] " type="text" name="lga" id="lga" placeholder="LGA" value="<?php echo ($lga) ?>" required>
+            <input required class="w-full outline-0 rounded p-[10px] placeholder:text-[#BDBDBD] border border-[#BDBDBD] " type="text" name="lga" id="lga" placeholder="LGA" value="<?php echo ($lga) ?>" required>
           </div>
 
         </div>
@@ -185,13 +205,13 @@ if (isset($_POST["submit"])) {
           <!-- Matric No input field -->
           <div class="md:col-start-1 md:col-span-3 md:row-start-1 md:row-span-1  mb-[20px] md:mb-0 ">
             <label for="matric-no" class="block">Matric No</label>
-            <input class="w-full outline-0 rounded p-[10px] border border-[#BDBDBD]" type="text" name="matric-no" id="matric-no" placeholder="Eg. 17/184145016TR" value="<?php echo ($matric_no) ?>" required>
+            <input required class="w-full outline-0 rounded p-[10px] border border-[#BDBDBD]" type="text" name="matric-no" id="matric-no" placeholder="Eg. 17/184145016TR" value="<?php echo ($matric_no) ?>" required>
           </div>
 
           <!-- Level input field -->
           <div class="md:col-start-4 md:col-span-3 md:row-start-1 md:row-span-1  mb-[20px] md:mb-0 ">
             <label for="level" class="block">Level</label>
-            <select class="w-full outline-0 rounded p-[10px] bg-[white] border border-[#BDBDBD] " type="" name="level" id="level" value="<?php echo ($level) ?>" required>
+            <select required class="w-full outline-0 rounded p-[10px] bg-[white] border border-[#BDBDBD] " type="" name="level" id="level" value="<?php echo ($level) ?>" required>
               <option value="100">100</option>
               <option value="200">200</option>
               <option value="300">300</option>
@@ -212,12 +232,13 @@ if (isset($_POST["submit"])) {
     </form>
 
 
-    <!-- POPUP DIV -->
-    <div class="fixed pointer-events-none bg-transparent right-[50%] rounded-md w-[150px]  left-[50%] bottom-[20%] top-[90vh] ">
-      <div id="popup" class="gap-[5px] hidden font-bold rounded-md min-w-[50px] w-[fit-content] py-[5px] px-[10px] bg-gray-200 border border-gray-700 text-gray-700 text-center " role="alert">
-        Popup
-      </div>
-    </div>
+    <?php
+    // this displays the login successful message
+      if ($message) {
+        include_once '/xampp/htdocs/CSC12/dist/views/popup.php';
+        showPopup($message);
+      }
+    ?>
 
   </div>
 

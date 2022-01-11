@@ -32,10 +32,11 @@
 
   }
 
-  class dbOperations extends dbConnect {
+  class dbOps extends dbConnect {
 
     //this searches the database for a student account and returns it if any is found
     function studentLogin($matric_no, $pin) {
+      $this->conn = $this->getConnection();
 
       $data = array();
       $query = "SELECT id, matric_no, surname, first_name, middle_name, nationality,
@@ -46,10 +47,13 @@
         $resp = $res->fetch_array();
         $data['status'] = true;
         $data['result'] = $resp;
+        $res->free_result();
+        $this->conn->close();
         return $data;
       }else {
         $data['status'] = false;
-        $data['error'] = 'Invalid matric number or pin'; 
+        $data['error'] = 'Invalid matric number or pin';
+        $this->conn->close();
         return $data;
       }
     }
@@ -86,7 +90,8 @@
 
     //updates student details
     function updateStudent($student = array(), $id) {
-      
+      $this->conn = $this->getConnection();
+
       $data = array();
       //checking if any change was made in the student details before updating
       $res = $this->getStudentById($id);
@@ -111,15 +116,17 @@
 
       $res = $this->conn->query($query);
       if($res->affected_rows > 0 ) {
-        $resp = $res->fetch_array();
         $res = $this->getStudentById($id);
-        $data['status'] = true;
-        $data['result'] = $resp['result'];
-        return $data;        
-        
+        if($res['status']){
+          $data['status'] = true;
+          $data['result'] = $res['result'];
+          $this->conn->close();
+          return $data;        
+        }
       }else {
         $data['status'] = false;
         $data['error'] = 'update details failed';
+        $this->conn->close();
         return $data;
       }
 
@@ -127,6 +134,7 @@
 
     //get student details using id only, this function is used by an admin only
     function getStudentById($id) {
+      $this->conn = $this->getConnection();
 
       $data = array();
       $query = "SELECT id, matric_no, surname, first_name, middle_name, nationality,
@@ -137,10 +145,13 @@
         $resp = $res->fetch_array();
         $data['status'] = true;
         $data['result'] = $resp;
+        $res->free_result();
+        $this->conn->close();
         return $data;
       }else {
         $data['status'] = false;
-        $data['error'] = 'Invalid id'; 
+        $data['error'] = 'Invalid id';
+        $this->conn->close();
         return $data;
       }
 
@@ -149,11 +160,12 @@
 
   }
 
-  class adminDb extends dbOperations {
+  class adminDb extends dbOps {
 
     
     //this searches the database for an admin account and returns it if any is found
     function adminLogin($email, $password) {
+      $this->conn = $this->getConnection();
 
       $data = array();
       $query = "SELECT username, email FROM admin WHERE email = '".$email. "' AND password = '".$password."'";
@@ -162,11 +174,14 @@
       if($res->num_rows > 0) {
         $resp = $res->fetch_array();
         $data['status'] = true;
+        $res->free_result();
+        $this->conn->close();
         $data['result'] = $resp;
         return $data;
       }else {
         $data['status'] = false;
         $data['error'] = 'Invalid email or password';
+        $this->conn->close();
         return $data;
       }
 
@@ -174,13 +189,14 @@
 
     //creates a new student on the database
     function createStudent($student = array()) {
+      $this->conn = $this->getConnection();
 
       $data = array();
       if(!empty($student)) {
 
         //checking if another student exists with the matric number
         $res = $this->getStudentByMatricNo($student['matric_no']);
-        if($res['status'] = true) {
+        if($res['status'] == true) {
           $data['status'] = false;
           $data['error'] = 'matric number already exists';
           return $data;
@@ -192,34 +208,24 @@
           ','".$student['dob']."','".$student['nationality']."','".$student['state']."','".$student['lga']."
           ','".$student['level']."','".$student['pin']."')";
 
-          $res = $this->conn->query($query);
+        $this->conn = $this->getConnection();
+        $res = $this->conn->query($query);
 
-          //if there is a response from the db
-          if($res) {
+        //if there is a response from the db
+        if($res) {
 
-          //check if that student exist on the db after insertion
-            $resp = $this->getStudentByMatricNo($student['matric_no']);
-            if($resp['status']) {
+          $this->conn->close();
+          $data['status'] = true;
+          return $data;
+        
+        }else {
 
-            //after getting the student on the db, compare if details match
-            $match = $this->compare($student, $resp['result']);
-              if($match) {
-                //if match, return true meaning student is created successfully
-                $data['status'] = true;
-                $data['result'] = $resp['result'];
-                return $data;
-              }
-            }else {
-              //if student does not exist on db after insertion
-              $data['status'] = false;
-              $data['error'] = 'failed to create: student not found after inserting!'; 
-              return $data;
-            }
-          }else {
-            //if there is no response from db
-            $data['status'] = false;
-            $data['error'] = 'failed to create'; 
-          }
+          $this->conn->close();
+          //if there is no response from db
+          $data['status'] = false;
+          $data['error'] = 'failed to create';
+          return $data;
+        }
 
       }
 
@@ -227,6 +233,7 @@
 
     //this deletes a student data using either matric number or id
     function deleteStudent($param, $paramName) {
+      $this->conn = $this->getConnection();
 
       $data = array();
 
@@ -240,42 +247,48 @@
       $res = $this->conn->query($query);
       if($res && $res->affected_rows > 0) {
         $data['status'] = true;
+        $this->conn->close();
         return $data;
       }else {
         $data['status'] = false;
         $data['error'] = 'delete operation failed';
+        $this->conn->close();
+        return $data;
       }
 
     }
 
     //gets all the students in a partiular level
     function getAllStudents($level) {
+      $this->conn = $this->getConnection();
 
       $data = array();
       $query = "SELECT id, matric_no, surname, first_name, middle_name, nationality,
-       state, lga, dob, level FROM students WHERE level = '".$level."'";
+       state, lga, dob, level, pin FROM students WHERE level = '".$level."'";
       $res = $this->conn->query($query);
 
       if($res->num_rows > 0) {
         $no = 0;
         while($row = $res->fetch_assoc()) {
           $resp[$no] = $row;
-          // echo $resp[$no]['matric_no'];
           $no++;
         }
-        
         $data['status'] = true;
         $data['result'] = $resp;
+        $res->free_result();
+        $this->conn->close();
         return $data;
       }else {
         $data['status'] = false;
-        $data['error'] = 'no students in this level'; 
+        $data['error'] = 'no students in this level';
+        $this->conn->close();
         return $data;
       }
     }
 
     //gets the total number of students in a level
     function getNoOfStudents($level) {
+      $this->conn = $this->getConnection();
 
       $data = array();
       $query = "SELECT id FROM students WHERE level = '".$level."'";
@@ -284,12 +297,15 @@
       $no = $res->num_rows;
       $data['result'] = $no;    
       $data['status'] = true;
+      $res->free_result();
+      $this->conn->close();
       return $data;
       
     }
 
     //get student details using matric number only, this function is used by an admin only
     function getStudentByMatricNo($matric_no) {
+      $this->conn = $this->getConnection();
 
       $data = array();
       $query = "SELECT id, matric_no, surname, first_name, middle_name, nationality,
@@ -300,10 +316,13 @@
         $resp = $res->fetch_array();
         $data['status'] = true;
         $data['result'] = $resp;
+        $res->free_result();
+        $this->conn->close();
         return $data;
       }else {
         $data['status'] = false;
-        $data['error'] = 'Invalid matric number'; 
+        $data['error'] = 'Invalid matric number';
+        $this->conn->close();
         return $data;
       }
 

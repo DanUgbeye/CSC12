@@ -63,22 +63,15 @@ if (!isset($_COOKIE["admin"])) {
   <!-- RIGHT COLUMN -->
   <div class="col-start-2 col-span-1 p-[20px] bg-[#E5E5E5] ">
 
-    <!-- ALERT DIV -->
-    <div class="w-full pointer-events-none bg-[#e5e5e5b9] backdrop-blur-sm sticky top-[10px] mb-[20px] ">
-      <div id="alert" class="hidden font-bold bg-[transparent] w-[100%] p-[5px] mr-auto border border-red-500 text-red-500 " role="alert">
-        Alert
-      </div>
-    </div>
-
     <div class="py-[20px] w-full grid grid-cols-2 gap-[16px] lg:grid-cols-4 ">
 
       <?php
 
-      //this gets the number of students per level
         require_once "/xampp/htdocs/CSC12/dist/lib/dbConnect.php";
         $adminOps = new adminDb();
         $student_stats = array();
 
+        //this gets the number of students per level
         for($level = 100; $level <= 400; $level += 100) {
 
           if($level == 100) {
@@ -129,8 +122,7 @@ if (!isset($_COOKIE["admin"])) {
     ?>
 
     <form id="form-level" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" onsubmit="(e)=>e.preventDefault()">
-      <!-- REMEMBER TO CHANGE THE ONCHANGE EVENT -->
-      <!-- NA HERE THE PROBLEM DEY -->
+      
       <select name="level" id="level" value="<?php echo $level; ?>" onchange="document.querySelector('#form-level').submit()" class=" ml-auto flex w-[100px] outline-0 rounded p-[10px] bg-[transparent] border border-[#BDBDBD] ">
         <option  value="100">Yr 1</option>
         <option  value="200">Yr 2</option>
@@ -155,10 +147,11 @@ if (!isset($_COOKIE["admin"])) {
                 <thead class="w-full bg-gray-300  text-left font-[500]  ">
                   <td class="p-[10px] rounded-tl-lg ">Matric No</td>
                   <td class="p-[10px] rounded-tr-lg md:rounded-[0]">Name</td>
-                  <td class="md:rounded-tr-lg lg:rounded-[0] w-0 invisible absolute md:relative overflow-hidden pointer-events-none md:pointer-events-auto md:visible md:w-[fit-content] ">Nationality</td>
+                  <td class="md:rounded-tr-lg lg:rounded-[0] w-0 invisible absolute lg:relative overflow-hidden pointer-events-none lg:pointer-events-auto lg:visible lg:w-[fit-content] ">Nationality</td>
                   <td class="w-0 invisible absolute lg:relative overflow-hidden pointer-events-none lg:pointer-events-auto lg:visible lg:w-[fit-content] ">State of Origin</td>
-                  <td class="rounded-tr-lg w-0 invisible absolute lg:relative overflow-hidden pointer-events-none lg:pointer-events-auto lg:visible lg:w-[fit-content] ">Date of Birth</td>
-                </thead>
+                  <td class="w-0 invisible absolute lg:relative overflow-hidden pointer-events-none lg:pointer-events-auto lg:visible lg:w-[fit-content] ">Date of Birth</td>
+                  <td class="rounded-tr-lg w-0 invisible absolute md:relative overflow-hidden pointer-events-none md:pointer-events-auto md:visible md:w-[fit-content] ">Pin</td>
+                  </thead>
           
                 <tbody>
             
@@ -178,14 +171,17 @@ if (!isset($_COOKIE["admin"])) {
                     <td class="p-[10px] rounded-tr-lg md:rounded-[0]">
                       '.$students_data['result'][$x]['surname'].' '.$students_data['result'][$x]['first_name'].'
                     </td>
-                    <td class="md:rounded-tr-lg lg:rounded-[0] w-0 invisible absolute md:relative overflow-hidden pointer-events-none md:pointer-events-auto md:visible md:w-[fit-content] " >
+                    <td class="w-0 invisible absolute lg:relative overflow-hidden pointer-events-none lg:pointer-events-auto lg:visible md:w-[fit-content] " >
                     ' .$students_data['result'][$x]['nationality'].'
                     </td>
-                    <td class="w-0 invisible absolute lg:relative overflow-hidden pointer-events-none lg:pointer-events-auto lg:visible lg:w-[fit-content] " >
+                    <td class="w-0 invisible absolute lg:relative overflow-hidden pointer-events-none lg:pointer-events-auto lg:visible md:w-[fit-content] " >
                       '.$students_data['result'][$x]['state'].'
                     </td>
-                    <td class="w-0 invisible absolute lg:relative overflow-hidden pointer-events-none lg:pointer-events-auto lg:visible lg:w-[fit-content] " >
+                    <td class="w-0 invisible absolute lg:relative overflow-hidden pointer-events-none lg:pointer-events-auto lg:visible md:w-[fit-content] " >
                       '.$students_data['result'][$x]['dob'].'
+                    </td>
+                    <td class="md:rounded-tr-lg lg:rounded-[0] w-0 invisible absolute md:relative overflow-hidden pointer-events-none md:pointer-events-auto md:visible md:w-[fit-content] " >
+                      '.$students_data['result'][$x]['pin'].'
                     </td>
                   </tr>
 
