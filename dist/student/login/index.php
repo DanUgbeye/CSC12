@@ -71,7 +71,7 @@
 
 <?php include_once "/xampp/htdocs/CSC12/dist/templates/header.php" ?>
 
-<div class="main h-full w-full mt-[50px] flex flex-col items-center justify-center">
+<div class="main h-full w-full max-w-[500px] mx-auto mt-[50px] flex flex-col items-center justify-center">
 
   <h2 class="text-[36px] font-bold text-[#5D5FEF] mb-[40px] ">Student Login</h2>
 
