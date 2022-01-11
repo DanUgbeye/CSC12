@@ -202,7 +202,7 @@ if (!isset($_COOKIE["admin"])) {
                 
               echo('
                 <div>
-                 <p class="p-[10px] text-[24px] text-gray-400 ">No students in this level</p>
+                 <p class="p-[10px] text-[24px] text-center text-gray-400 ">No students in this level</p>
                 </div>
               ');
 
