@@ -21,7 +21,7 @@
 
     if (!$matric_no) {
       $matric_error = "no matric number provided";
-    } elseif (strlen($matric_no) != 12 || strlen($matric_no) != 14) {
+    } elseif (strlen($matric_no) != 12 && strlen($matric_no) != 14) {
       $matric_error = "invalid matric number";
     } elseif (!$pin) {
       $pin_error = "no pin provided";
