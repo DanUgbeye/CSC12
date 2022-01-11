@@ -65,6 +65,7 @@ if (isset($_POST['submit'])) {
 <!DOCTYPE html>
 <html lang="en">
 
+<<<<<<< Updated upstream
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -94,6 +95,40 @@ if (isset($_POST['submit'])) {
           Alert
         </div>
       </div>
+=======
+<?php include_once "/xampp/htdocs/CSC12/dist/templates/header.php" ?>
+
+  <nav class="flex space-between" >
+    <div class="">
+      <img src="/CSC12/dist/res/images/logo.svg" alt="Logo">
+    </div>
+
+      <a class="block ml-auto font-bold hover:border-4 hover:border-red-400 " href="/CSC12/dist/">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z" fill="#5D5FEF"/>
+        </svg>
+      </a>
+  </nav>
+
+  <div class="main h-full w-full max-w-[500px] mx-auto mt-[50px] flex flex-col items-center justify-center">
+
+    <h2 class="text-[36px] font-bold text-[#5D5FEF] mb-[40px] ">
+      Login as
+      <span class="relative">
+        <div class="absolute top-[-2px] bottom-0 right-0 left-[-5px] z-[-1] bg-[#FCDDEC] rotate-[351.29deg] w-[135px] h-[58px] hidden sm:block "></div>
+        Admin
+      </span>
+    </h2>
+
+    <?php
+      //this displays the error
+      if(!empty($user_error)) {
+        require_once "/xampp/htdocs/CSC12/dist/views/alert.php";
+        showAlert($user_error);
+      }
+
+    ?>
+>>>>>>> Stashed changes
 
       <!-- LOGIN FORM -->
       <form class="w-full max-w-[500px] " action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="e.preventDefault()">

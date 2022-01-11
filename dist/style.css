@@ -725,6 +725,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   min-width: 700px;
 }
 
+.w-\[30px\] {
+  width: 30px;
+}
+
 .min-w-\[50px\] {
   min-width: 50px;
 }
@@ -1164,6 +1168,19 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-radius: 0.25rem;
 }
 
+.hover\:border:hover {
+  border-width: 1px;
+}
+
+.hover\:border-4:hover {
+  border-width: 4px;
+}
+
+.hover\:border-red-400:hover {
+  --tw-border-opacity: 1;
+  border-color: rgb(248 113 113 / var(--tw-border-opacity));
+}
+
 .hover\:bg-\[\#5D5FEF\]:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(93 95 239 / var(--tw-bg-opacity));
@@ -1201,6 +1218,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .active\:text-\[\#5d5fef\]:active {
   --tw-text-opacity: 1;
   color: rgb(93 95 239 / var(--tw-text-opacity));
+}
+
+.hover\:bg-\[grey\]:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(128 128 128 / var(--tw-bg-opacity));
 }
 
 @media (min-width: 640px) {
