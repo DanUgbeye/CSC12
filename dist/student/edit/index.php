@@ -10,10 +10,53 @@
 
     require_once "/xampp/htdocs/CSC12/dist/lib/dbConnect.php";
     $studentOps = new dbOps();
+
     $studentProfile = $studentOps->getStudentById($id, $matric_no);
     if(!$studentProfile['status']) {
       $error_message = $studentProfile['error'];
     }
+
+    if (isset($_POST["submit"])) {
+      $surname = $_POST["surname"];
+      $firstname = $_POST["firstname"];
+      $middlename = $_POST["middlename"];
+      $dob = $_POST["d-o-b"];
+      $nationality = $_POST["nationality"];
+      $state = $_POST["state"];
+      $lga = $_POST["lga"];
+      $matric_no = $_POST["matric-no"];
+      $level = $_POST["level"];
+      unset($_POST["submit"]);
+
+      $student = array();
+    
+      //creating the student data array
+      $student['matric_no'] = $matric_no;
+      $student['surname'] = $surname;
+      $student['first_name'] = $firstname;
+      $student['middle_name'] = $middlename;
+      $student['dob'] = $dob;
+      $student['nationality'] = $nationality;
+      $student['state'] = $state;
+      $student['lga'] = $lga;
+      $student['level'] = $level;
+        
+      $res = $studentOps->updateStudent($student, $id);
+      if($res['status']) {
+        $message = ("changes saved");
+        setcookie("student", json_encode(array('matric_no' => $res['result']["matric_no"], 'id' => $res['result']["id"])), time() + 60 * 60 * 24 * 7, "/"); // expire in 7 days
+        header("location:/CSC12/dist/student/");
+        exit();
+      } else {
+        $error_message = $res['error'];
+      }
+      
+      // reset form values
+      $surname = $firstname = $middlename = $dob = $nationality = $state = $lga = $matric_no = "";
+      $level = 100;
+    }
+
+    
     
   }
 ?>
@@ -26,25 +69,26 @@
   <!-- RIGHT COLUMN -->
   <div class="col-start-2 col-span-1 p-[20px] bg-[#E5E5E5] ">
 
-    <!-- ALERT DIV -->
-    <div class="w-full pointer-events-none bg-[#e5e5e5b9] backdrop-blur-sm sticky top-[10px] mb-[20px] ">
-      <div id="alert" class="hidden font-bold bg-[transparent] w-[100%] p-[5px] mr-auto border border-red-500 text-red-500 " role="alert">
-        Alert
+    <?php
+      //this displays the error
+      if(!empty($error_message)) {
+        require_once "/xampp/htdocs/CSC12/dist/views/alert.php";
+        showAlert($error_message);
+      }
+    ?>
+
+  
+    <form action="<?php echo (htmlspecialchars($_SERVER["PHP_SELF"])) ?>" class="w-full" method="post">
+
+      <!-- SAVE BUTTON -->
+      <div class="flex ">
+        <button type="submit" name="submit" id="save-std" class=" text-white px-[10px] py-[5px] bg-[#2F80ED] rounded-md flex mt-[30px] ml-auto cursor-pointer hover:bg-[#4091FE] gap-[5px] " >
+          <span>
+            <img id="save-std" src="/CSC12/dist/res/images/save.svg" alt="">
+          </span>
+          <p id="save-std" class="hidden sm:block">Save</p>
+        </button>
       </div>
-    </div>
-
-    <!-- SAVE BUTTON -->
-    <div class="flex ">
-      <button type="submit" id="save-std" class=" text-white px-[10px] py-[5px] bg-[#2F80ED] rounded-md flex mt-[30px] ml-auto cursor-pointer hover:bg-[#4091FE] gap-[5px] " >
-        <span>
-          <img id="save-std" src="/CSC12/dist/res/images/save.svg" alt="">
-        </span>
-        <p id="save-std" class="hidden sm:block">Save</p>
-      </button>
-    </div>
-
-
-    <form action="" class="">
 
       <!-- Personal Info form group -->
       <div class=" mb-[20px] ">
@@ -130,15 +174,17 @@
   </div>
 
   <?php
-echo ('
-      <script>
-        document.querySelector("#level").value = ' . $studentProfile['result']['level'] . ';
-        document.querySelector("#level").classList.remove("bg-[transparent]");
-        document.querySelector("#level").classList.add("bg-[white]");
-        document.querySelector("#d-o-b").classList.remove("bg-[transparent]");
-        document.querySelector("#d-o-b").classList.add("bg-[white]");
-      </script>
-    ');
+    if(!empty($studentProfile['result']['level'])) {
+      echo ('
+        <script>
+          document.querySelector("#level").value = ' . $studentProfile['result']['level'] . ';
+          document.querySelector("#level").classList.remove("bg-[transparent]");
+          document.querySelector("#level").classList.add("bg-[white]");
+          document.querySelector("#d-o-b").classList.remove("bg-[transparent]");
+          document.querySelector("#d-o-b").classList.add("bg-[white]");
+        </script>
+      ');
+    }
 ?>
   <script src="../scripts/ui.js"></script>
 

@@ -55,7 +55,6 @@
           $user_error = "incorrect user credentials";
         } else {
           $user = "login sucessful";
-          echo "I'm entering here";
           setcookie("student", json_encode(array('matric_no' => $student[0]["matric_no"], 'id' => $student[0]["id"])), time() + 60 * 60 * 24 * 7, "/"); // expire in 7 days
           header("location:/CSC12/dist/student/");
           exit();

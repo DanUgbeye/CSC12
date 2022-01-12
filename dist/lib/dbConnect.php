@@ -114,19 +114,18 @@
       `level`='".$student['level']."'
       WHERE id ='".$id."'";
 
+      $this->conn = $this->getConnection();
       $res = $this->conn->query($query);
-      if($res->affected_rows > 0 ) {
+      if($res) {
         $res = $this->getStudentById($id, $student['matric_no']);
         if($res['status']){
           $data['status'] = true;
           $data['result'] = $res['result'];
-          $this->conn->close();
           return $data;        
         }
       }else {
         $data['status'] = false;
         $data['error'] = 'update details failed';
-        $this->conn->close();
         return $data;
       }
 
