@@ -13,33 +13,48 @@ if (!isset($_COOKIE["admin"])) {
 <!-- RIGHT COLUMN -->
 <div class="col-start-2 col-span-1 p-[20px] bg-[#E5E5E5] ">
 
-  <!-- ALERT DIV -->
-  <div class="w-full pointer-events-none bg-[#e5e5e5b9] backdrop-blur-sm sticky top-[10px] mb-[20px] ">
-    <div id="alert" class="hidden font-bold bg-[transparent] w-[100%] p-[5px] mr-auto border border-red-500 text-red-500 " role="alert">
-      Alert
-    </div>
-  </div>
-
   <div class="py-[20px] w-full grid grid-cols-2 gap-[16px] lg:grid-cols-4 ">
 
+  <?php
+
+    require_once "/xampp/htdocs/CSC12/dist/lib/dbConnect.php";
+    $adminOps = new adminDb();
+    $student_stats = array();
+
+    //this gets the number of students per level
+    for($level = 100; $level <= 400; $level += 100) {
+
+      if($level == 100) {
+        $student_stats[$level] = $adminOps->getNoOfStudents($level);
+      } elseif($level == 200) {
+        $student_stats[$level] = $adminOps->getNoOfStudents($level);
+      } elseif($level == 300) {
+        $student_stats[$level] = $adminOps->getNoOfStudents($level);
+      } elseif($level == 400) {
+        $student_stats[$level] = $adminOps->getNoOfStudents($level);
+      }
+
+    }
+  ?>
+
     <div class=" lg:col-start-1 lg:col-span-1 flex flex-col sm:flex-row lg:flex-col items-center justify-center bg-pink-200 text-pink-500 px-[25px] lg:py-[12.5px]  rounded-lg ">
-      <h3 class="font-[700] text-[24px] text-center sm:text-left lg:text-center w-full">Year 1</h3>
-      <span id="no-yr-1" class="font-[700] text-[36px] mx-auto ">0</span>
+    <h3 class="font-[700] text-[24px] text-center sm:text-left lg:text-center w-full">Year 1</h3>
+    <span id="no-yr-1" class="font-[700] text-[36px] mx-auto "><?php echo($student_stats[100]['result']) ?></span>
     </div>
 
     <div class=" lg:col-start-2 lg:col-span-1 flex flex-col sm:flex-row lg:flex-col items-center justify-center bg-purple-300 text-purple-500 px-[25px] lg:py-[12.5px]  rounded-lg ">
-      <h3 class="font-[700] text-[24px] text-center sm:text-left lg:text-center w-full">Year 2</h3>
-      <span id="no-yr-2" class="font-[700] text-[36px] mx-auto ">0</span>
+    <h3 class="font-[700] text-[24px] text-center sm:text-left lg:text-center w-full">Year 2</h3>
+    <span id="no-yr-2" class="font-[700] text-[36px] mx-auto "><?php echo($student_stats[200]['result']) ?></span>
     </div>
 
     <div class=" lg:col-start-3 lg:col-span-1 flex flex-col sm:flex-row lg:flex-col items-center justify-center bg-blue-300 text-blue-500 px-[25px] lg:py-[12.5px] rounded-lg ">
-      <h3 class="font-[700] text-[24px] text-center sm:text-left lg:text-center w-full">Year 3</h3>
-      <span id="no-yr-3" class="font-[700] text-[36px] mx-auto ">0</span>
+    <h3 class="font-[700] text-[24px] text-center sm:text-left lg:text-center w-full">Year 3</h3>
+    <span id="no-yr-3" class="font-[700] text-[36px] mx-auto "><?php echo($student_stats[300]['result']) ?></span>
     </div>
 
     <div class=" lg:col-start-4 lg:col-span-1 flex flex-col sm:flex-row lg:flex-col items-center justify-center bg-green-300 text-green-500 px-[25px] lg:py-[12.5px]  rounded-lg ">
-      <h3 class="font-[700] text-[24px] text-center sm:text-left lg:text-center w-full">Year 4</h3>
-      <span id="no-yr-4" class="font-[700] text-[36px] mx-auto ">0</span>
+    <h3 class="font-[700] text-[24px] text-center sm:text-left lg:text-center w-full">Year 4</h3>
+    <span id="no-yr-4" class="font-[700] text-[36px] mx-auto "><?php echo($student_stats[400]['result']) ?></span>
     </div>
 
   </div>
@@ -48,11 +63,11 @@ if (!isset($_COOKIE["admin"])) {
 
     <?php
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-      $level = $_POST["level"];
-    } else {
-      $level = 100;
-    }
+      if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $level = $_POST["level"];
+      } else {
+        $level = 100;
+      }
 
     ?>
 
@@ -125,11 +140,11 @@ if (!isset($_COOKIE["admin"])) {
       }
 
       echo ('
-            
-                </tbody>
-              </table>
-            
-            ');
+      
+          </tbody>
+        </table>
+      
+      ');
 
       //if there are no students in that level this is displayed
       if (!$students_data['status'] && $students_data['error'] == 'no students in this level') {

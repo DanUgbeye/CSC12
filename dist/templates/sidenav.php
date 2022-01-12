@@ -1,16 +1,16 @@
 <?php
-$username = "username";
-$type = "";
+  $username = "username";
+  $type = "";
 
-if (isset($_COOKIE["admin"])) {
-  $type = "admin";
-  $admin = json_decode($_COOKIE["admin"]);
-  $username = $admin->email;
-} elseif (isset($_COOKIE["student"])) {
-  $type = "student";
-  $admin = json_decode($_COOKIE["student"]);
-  $username = $admin->matric_no;
-}
+  if (isset($_COOKIE["admin"])) {
+    $type = "admin";
+    $admin = json_decode($_COOKIE["admin"]);
+    $username = $admin->email;
+  } elseif (isset($_COOKIE["student"])) {
+    $type = "student";
+    $admin = json_decode($_COOKIE["student"]);
+    $username = $admin->matric_no;
+  }
 ?>
 <nav class="p-[20px] h-[100vh] w-full bg-gray-300 flex flex-col justify-between">
 
@@ -32,45 +32,46 @@ if (isset($_COOKIE["admin"])) {
 
     <ul class="list-none mt-10 text-[#333333] grid grid-flow-row gap-4">
       <?php
-      if ($type === "admin") {
-        echo ("<li>
-        <a href='../' class='block p-[5px] h-full  text-gray-700 rounded font-medium tracking-wider active:text-[#5D5FEF] hover:bg-gray-200'>Overview</a>
-      </li>
-      <li>
-        <a href='/CSC12/dist/admin/create/' class='block p-[5px] h-full text-gray-700 font-medium tracking-wider rounded active:text-[#5d5fef] hover:bg-gray-200'>Create</a>
-      </li>
-      <li>
-        <a href='/CSC12/dist/admin/update/' class='block p-[5px] h-full text-gray-700 font-medium tracking-wider rounded hover:bg-gray-200 '>Update</a>
-      </li>
-      <li>
-        <button class='flex items-center p-[5px] w-full text-left text-gray-700 font-medium tracking-wider rounded hover:bg-gray-200 ' name='logout' onclick='document.cookie = `admin=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`; window.location.replace(`/CSC12/dist/admin/login/index.php`)'>
-          <svg xmlns='http://www.w3.org/2000/svg' class='h-6 w-6' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
-            <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1' />
-          </svg>
-          <span class='ml-4'>
-            logout
-          </span>
-        </button>
-      </li>");
-      } elseif ($type === "student") {
-        echo ("
-         <li>
-        <a href='../student/' class='block p-[5px] h-full text-gray-700 font-medium tracking-wider rounded hover:bg-gray-200 '>Profile</a>
-      </li>
-      <li>
-        <button class='flex items-center p-[5px] w-full text-left text-gray-700 font-medium tracking-wider rounded hover:bg-gray-200 ' name='logout' onclick='document.cookie = `student=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`; window.location.replace(`/CSC12/dist/student/login/index.php`)'>
-          <svg xmlns='http://www.w3.org/2000/svg' class='h-6 w-6' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
-            <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1' />
-          </svg>
-          <span class='ml-4'>
-            logout
-          </span>
-        </button>
-      </li>
-        ");
-      }
+        if ($type === "admin") {
+          echo ("
+            <li>
+              <a href='/CSC12/dist/admin/' class='block p-[5px] h-full  text-gray-700 rounded font-medium tracking-wider active:text-[#5D5FEF] hover:bg-gray-200'>Overview</a>
+            </li>
+            <li>
+              <a href='/CSC12/dist/admin/create/' class='block p-[5px] h-full text-gray-700 font-medium tracking-wider rounded active:text-[#5d5fef] hover:bg-gray-200'>Create</a>
+            </li>
+            <li>
+              <a href='/CSC12/dist/admin/update/' class='block p-[5px] h-full text-gray-700 font-medium tracking-wider rounded hover:bg-gray-200 '>Update</a>
+            </li>
+            <li>
+              <button class='flex items-center p-[5px] w-full text-left text-gray-700 font-medium tracking-wider rounded hover:bg-gray-200 ' name='logout' onclick='document.cookie = `admin=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`; window.location.replace(`/CSC12/dist/admin/login/index.php`)'>
+                <svg xmlns='http://www.w3.org/2000/svg' class='h-6 w-6' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                  <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1' />
+                </svg>
+                <span class='ml-4'>
+                  logout
+                </span>
+              </button>
+            </li>
+          ");
+        } elseif ($type === "student") {
+          echo ("
+            <li>
+              <a href='/CSC12/dist/student/' class='block p-[5px] h-full text-gray-700 font-medium tracking-wider rounded hover:bg-gray-200 '>Profile</a>
+            </li>
+            <li>
+              <button class='flex items-center p-[5px] w-full text-left text-gray-700 font-medium tracking-wider rounded hover:bg-gray-200 ' name='logout' onclick='document.cookie = `student=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`; window.location.replace(`/CSC12/dist/student/login/index.php`)'>
+                <svg xmlns='http://www.w3.org/2000/svg' class='h-6 w-6' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
+                  <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1' />
+                </svg>
+                <span class='ml-4'>
+                  logout
+                </span>
+              </button>
+            </li>
+          ");
+        } 
       ?>
-
     </ul>
   </div>
 

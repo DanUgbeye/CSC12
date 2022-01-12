@@ -70,19 +70,30 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<?php include_once "/xampp/htdocs/CSC12/dist/templates/header.php" ?>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<nav class="flex space-between" >
-    <div class="">
-      <img src="/CSC12/dist/res/images/logo.svg" alt="Logo">
-    </div>
+    <link rel="stylesheet" href="/CSC12/dist/style.css">
+    <title>CSC 12</title>
+  </head>
 
-    <div class="block ml-auto p-6" >
-      <a class="block p-[10px] font-bold " href="/CSC12/dist/">
-        <img src="/CSC12/dist/res/images/back.svg" alt="back">  
-      </a>
-    </div>
-  </nav>
+  <body class="min-h-[100vh] bg-[#E5E5E5] p-[15px] sm:py-[46px] sm:px-[63px]">
+
+
+    <nav class="flex " >
+      <div class="">
+        <img src="/CSC12/dist/res/images/logo.svg" alt="Logo">
+      </div>
+
+        <a class=" px-[10px] tracking-wider font-medium rounded-md flex gap-[5px] items-center py-[5px] ml-auto text-[#5D5FEF] hover:bg-gray-300 " href="/CSC12/dist/">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z" fill="#5D5FEF"/>
+          </svg>
+          back
+        </a>
+    </nav>
 
 <div class="main h-full w-full max-w-[500px] mx-auto mt-[50px] flex flex-col items-center justify-center">
 

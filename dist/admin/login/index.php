@@ -11,10 +11,14 @@
     exit();
   }
 
-if (isset($_POST['submit'])) {
-  $email = $_POST['email'];
-  $password = $_POST['password'];
+  $email_error = "";
+  $password_error = "";
+  $user_error = "";
+  $user = "";
 
+  $email = $password = "";
+
+  if(isset($_POST['submit'])) {
 
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -65,20 +69,34 @@ if (isset($_POST['submit'])) {
 <!DOCTYPE html>
 <html lang="en">
 
-<<<<<<< Updated upstream
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../../style.css">
-  <title>CSC12</title>
-</head>
+<?php //include_once "/xampp/htdocs/CSC12/dist/templates/header.php" ?>
 
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <body class="flex items-center justify-center h-[100vh] min-w-[700px] bg-[#E5E5E5]">
+    <link rel="stylesheet" href="/CSC12/dist/style.css">
+    <title>CSC 12</title>
+  </head>
 
-    <div class="main w-full flex flex-col items-center justify-center">
+  <body class="min-h-[100vh] bg-[#E5E5E5] p-[15px] sm:py-[46px] sm:px-[63px]">
+
+
+    <nav class="flex " >
+      <div class="">
+        <img src="/CSC12/dist/res/images/logo.svg" alt="Logo">
+      </div>
+
+        <a class=" px-[10px] rounded-md tracking-wider font-medium flex gap-[5px] items-center py-[5px] ml-auto text-[#5D5FEF] hover:bg-gray-300 " href="/CSC12/dist/">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z" fill="#5D5FEF"/>
+          </svg>
+          back
+        </a>
+    </nav>
+
+    <div class="main h-full w-full max-w-[500px] mx-auto mt-[50px] flex flex-col items-center justify-center">
 
       <h2 class="text-[36px] font-bold text-[#5D5FEF] mb-[40px] ">
         Login as
@@ -88,86 +106,53 @@ if (isset($_POST['submit'])) {
         </span>
       </h2>
 
-      <!-- we may not need this -->
-      <!-- ALERT DIV -->
-      <div class="w-full max-w-[500px] pointer-events-none bg-[#e5e5e5b9] backdrop-blur-sm sticky top-[10px] mb-[20px] ">
-        <div id="alert" class="hidden font-bold bg-[transparent] w-[100%] p-[5px] mr-auto border border-red-500 text-red-500 " role="alert">
-          Alert
-        </div>
-      </div>
-=======
-<?php include_once "/xampp/htdocs/CSC12/dist/templates/header.php" ?>
+      <?php
+        //this displays the error
+        if(!empty($user_error)) {
+          require_once "/xampp/htdocs/CSC12/dist/views/alert.php";
+          showAlert($user_error);
+        }
 
-  <nav class="flex space-between" >
-    <div class="">
-      <img src="/CSC12/dist/res/images/logo.svg" alt="Logo">
-    </div>
+      ?>
 
-      <a class="block ml-auto font-bold hover:border-4 hover:border-red-400 " href="/CSC12/dist/">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z" fill="#5D5FEF"/>
-        </svg>
-      </a>
-  </nav>
+        <!-- LOGIN FORM -->
+        <form class="w-full max-w-[500px] " action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="e.preventDefault()">
 
-  <div class="main h-full w-full max-w-[500px] mx-auto mt-[50px] flex flex-col items-center justify-center">
+          <div class="w-full max-w-[500px] mb-[20px]">
+            <label for="email" class="block">Email</label>
+            <input required class="w-full outline-0 rounded-lg p-[10px] px-[20px] border border-[#BDBDBD]" type="email" name="email" id="email" placeholder="email" value="<?php echo ($email) ?>">
+            <?php
+            echo ("<p class='text-red-500'>" . $email_error . "</p>");        ?>
+          </div>
 
-    <h2 class="text-[36px] font-bold text-[#5D5FEF] mb-[40px] ">
-      Login as
-      <span class="relative">
-        <div class="absolute top-[-2px] bottom-0 right-0 left-[-5px] z-[-1] bg-[#FCDDEC] rotate-[351.29deg] w-[135px] h-[58px] hidden sm:block "></div>
-        Admin
-      </span>
-    </h2>
+          <div class="w-full max-w-[500px] mb-[40px] ">
+            <label for="password" class="block">Password</label>
+            <input required class="w-full outline-0 rounded-lg p-[10px] px-[20px] border border-[#BDBDBD]" type="password" name="password" id="password" placeholder="password" required minlength='6' value="<?php echo ($password) ?>">
+            <?php
+            $length = strlen($password_error);
+            if ($length > 0 && $length < 6) {
+              echo ("<p class='text-red-500'>" . $password_error . "</p>");
+            }
+            ?>
+          </div>
 
-    <?php
-      //this displays the error
-      if(!empty($user_error)) {
-        require_once "/xampp/htdocs/CSC12/dist/views/alert.php";
-        showAlert($user_error);
-      }
+          <input type="submit" name="submit" value="Login" id=" admin-login" class="bg-[#2F80ED] hover:bg-[#4091FE] w-full max-w-[500px] mb-[20px] p-[10px] rounded-lg font-[500] text-[white] cursor-pointer" />
 
-    ?>
->>>>>>> Stashed changes
-
-      <!-- LOGIN FORM -->
-      <form class="w-full max-w-[500px] " action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="e.preventDefault()">
-
-        <div class="w-full max-w-[500px] mb-[20px]">
-          <label for="email" class="block">Email</label>
-          <input required class="w-full outline-0 rounded-lg p-[10px] px-[20px] border border-[#BDBDBD]" type="email" name="email" id="email" placeholder="email" value="<?php echo ($email) ?>">
           <?php
-          echo ("<p class='text-red-500'>" . $email_error . "</p>");        ?>
-        </div>
-
-        <div class="w-full max-w-[500px] mb-[40px] ">
-          <label for="password" class="block">Password</label>
-          <input required class="w-full outline-0 rounded-lg p-[10px] px-[20px] border border-[#BDBDBD]" type="text" name="password" id="password" placeholder="password" required minlength='6' value="<?php echo ($password) ?>">
+          // echo ("<p class='text-red-500'>" . $user_error . "</p>");
+          ?>
           <?php
-          $length = strlen($password_error);
-          if ($length > 0 && $length < 6) {
-            echo ("<p class='text-red-500'>" . $password_error . "</p>");
+          // echo ("<p class='text-green-700'>" . $user . "</p>");
+          ?>
+
+          <?php
+          if ($user) {
+            include_once '/xampp/htdocs/CSC12/dist/views/popup.php';
+            showPopup($user);
           }
           ?>
-        </div>
-
-        <input type="submit" name="submit" value="Login" id=" admin-login" class="bg-[#2F80ED] hover:bg-[#4091FE] w-full max-w-[500px] mb-[20px] p-[10px] rounded-lg font-[500] text-[white] cursor-pointer" />
-
-        <?php
-        // echo ("<p class='text-red-500'>" . $user_error . "</p>");
-        ?>
-        <?php
-        // echo ("<p class='text-green-700'>" . $user . "</p>");
-        ?>
-
-        <?php
-        if ($user) {
-          include_once '/xampp/htdocs/CSC12/dist/views/popup.php';
-          showPopup($user);
-        }
-        ?>
-      </form>
-    </div>
+        </form>
+      </div>
   </body>
 
 </html>

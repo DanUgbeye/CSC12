@@ -39,7 +39,7 @@
       $this->conn = $this->getConnection();
 
       $data = array();
-      $query = "SELECT id, matric_no, surname, first_name, middle_name, nationality,
+      $query = "SELECT id, matric_no, surname, first_name, middle_name, dob, nationality,
        state, lga, level FROM students WHERE matric_no = '".$matric_no. "' AND pin = '".$pin."'";
       $res = $this->conn->query($query);
 
@@ -94,7 +94,7 @@
 
       $data = array();
       //checking if any change was made in the student details before updating
-      $res = $this->getStudentById($id);
+      $res = $this->getStudentById($id, $student['matric_no']);
       if($res['status']) {
         $match = $this->compare($res['result'], $student);
         if($match) {
@@ -116,7 +116,7 @@
 
       $res = $this->conn->query($query);
       if($res->affected_rows > 0 ) {
-        $res = $this->getStudentById($id);
+        $res = $this->getStudentById($id, $student['matric_no']);
         if($res['status']){
           $data['status'] = true;
           $data['result'] = $res['result'];
@@ -133,12 +133,12 @@
     }
 
     //get student details using id only, this function is used by an admin only
-    function getStudentById($id) {
+    function getStudentById($id, $matric_no) {
       $this->conn = $this->getConnection();
 
       $data = array();
-      $query = "SELECT id, matric_no, surname, first_name, middle_name, nationality,
-      state, lga, level FROM students WHERE id = '".$id."'";
+      $query = "SELECT id, matric_no, surname, first_name, middle_name, dob, nationality,
+      state, lga, level FROM students WHERE id = '".$id."' AND matric_no = '".$matric_no."'";
       $res = $this->conn->query($query);
 
       if($res->num_rows > 0) {
@@ -304,7 +304,7 @@
       $this->conn = $this->getConnection();
 
       $data = array();
-      $query = "SELECT id, matric_no, surname, first_name, middle_name, nationality,
+      $query = "SELECT id, matric_no, surname, first_name, middle_name, dob, nationality,
        state, lga, level FROM students WHERE matric_no = '".$matric_no."'";
       $res = $this->conn->query($query);
 
