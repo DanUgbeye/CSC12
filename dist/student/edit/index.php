@@ -55,11 +55,8 @@
       $surname = $firstname = $middlename = $dob = $nationality = $state = $lga = $matric_no = "";
       $level = 100;
     }
-
-    
-    
   }
-}
+
 ?>
 
 <?php include "/xampp/htdocs/CSC12/dist/templates/header.php" ?>
