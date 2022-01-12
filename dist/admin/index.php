@@ -87,7 +87,6 @@ if (!isset($_COOKIE["admin"])) {
     <?php
 
       $students_data = $adminOps->getAllStudents($level);
-      // if($students_data['status']) echo($students_data['result'][0]['surname']);
 
       echo('
 
