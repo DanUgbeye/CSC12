@@ -13,4 +13,4 @@
   </script>
 </head>
 
-<body class="h-[100vh] min-w-[700px] bg-[#E5E5E5] grid grid-cols-[250px_1fr]">
+<body class="h-[100vh] min-w-[700px] grid grid-cols-[250px_1fr]">

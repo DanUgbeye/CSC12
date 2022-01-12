@@ -12,7 +12,7 @@
     $username = $admin->matric_no;
   }
 ?>
-<nav class="p-[20px] h-[100vh] w-full bg-gray-300 flex flex-col justify-between">
+<nav class="p-[20px] h-[100vh] w-full bg-gray-100 flex flex-col justify-between">
 
   <div>
     <!-- logo -->
