@@ -33,7 +33,7 @@ if (!isset($_COOKIE["student"])) {
   </div>
 
   <!-- EDIT STUDENT BUTTON -->
-  <a href="/CSC12/dist/student/edit" class="w-max text-white py-3 px-4 mt-[30px] ml-auto bg-[#2F80ED] hover:bg-[#033e8b] rounded-md flex items-center ">
+  <a href="/CSC12/dist/student/edit/" class="w-max text-white py-3 px-4 mt-[30px] ml-auto bg-[#2F80ED] hover:bg-[#033e8b] rounded-md flex items-center ">
     <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M4.333 16.548L16.57 4.31001C17.0534 3.84738 17.6988 3.59242 18.3679 3.59973C19.037 3.60704 19.6767 3.87605 20.1499 4.34914C20.6231 4.82223 20.8923 5.4618 20.8998 6.1309C20.9073 6.8 20.6525 7.44544 20.19 7.92901L7.951 20.167C7.6718 20.4462 7.31619 20.6366 6.929 20.714L3 21.5L3.786 17.57C3.86345 17.1828 4.05378 16.8272 4.333 16.548V16.548Z" stroke="#F2F2F2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       <path d="M14.5 7L17.5 10" stroke="#F2F2F2" stroke-width="2" />

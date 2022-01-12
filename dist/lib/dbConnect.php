@@ -244,7 +244,7 @@
       }
 
       $res = $this->conn->query($query);
-      if($res && $res->affected_rows > 0) {
+      if($res) {
         $data['status'] = true;
         $this->conn->close();
         return $data;

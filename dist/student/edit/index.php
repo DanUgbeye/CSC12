@@ -76,25 +76,20 @@
     ?>
 
   
-    <form action="<?php echo (htmlspecialchars($_SERVER["PHP_SELF"])) ?>" class="w-full" method="post">
+  <form action="<?php echo (htmlspecialchars($_SERVER["PHP_SELF"])) ?>" class="w-full" method="post">
 
       <!-- SAVE BUTTON -->
-      <div class="flex ">
-        <button type="submit" name="submit" id="save-std" class=" text-white px-[10px] py-[5px] bg-[#2F80ED] rounded-md flex mt-[30px] ml-auto cursor-pointer hover:bg-[#4091FE] gap-[5px] " >
+        <button type="submit" name="submit" id="save-std" class=" w-max text-white py-3 px-4 mt-[30px] ml-auto bg-[#2F80ED] hover:bg-[#033e8b] rounded-md flex items-center " >
           <span>
             <img id="save-std" src="/CSC12/dist/res/images/save.svg" alt="">
           </span>
-          <p id="save-std" class="hidden sm:block">Save</p>
+          <p id="save-std" class="hidden ml-3 sm:block">Save</p>
         </button>
-      </div>
-
-  <form action="" class="">
 
     <!-- Personal Info form group -->
     <div class=" mb-[20px] ">
 
       <h3 class="w-full border-b-[2px] border-[#BDBDBD] font-bold mb-[20px] ">Personal Information</h3>
-
 
       <div class="md:grid md:grid-cols-6 md:grid-rows-3 md:gap-x-[47px] md:gap-y-[10px] font-[500]  ">
 
