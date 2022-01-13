@@ -1227,6 +1227,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   font-weight: 600;
 }
 
+.hover\:text-white:hover {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
 .active\:text-\[\#5D5FEF\]:active {
   --tw-text-opacity: 1;
   color: rgb(93 95 239 / var(--tw-text-opacity));

@@ -132,6 +132,28 @@ class dbOps extends dbConnect
       $data['error'] = 'update details failed';
       return $data;
     }
+
+
+    $query = "UPDATE `students` SET `matric_no`='" . $student['matric_no'] . "',`surname`='" . $student['surname'] . "',
+      `first_name`='" . $student['first_name'] . "',`middle_name`='" . $student['middle_name'] . "',`dob`='" . $student['dob'] . "',
+      `nationality`='" . $student['nationality'] . "',`state`='" . $student['state'] . "',`lga`='" . $student['lga'] . "',
+      `level`='" . $student['level'] . "'
+      WHERE id ='" . $id . "'";
+
+    $this->conn = $this->getConnection();
+    $res = $this->conn->query($query);
+    if ($res) {
+      $res = $this->getStudentById($id, $student['matric_no']);
+      if ($res['status']) {
+        $data['status'] = true;
+        $data['result'] = $res['result'];
+        return $data;
+      }
+    } else {
+      $data['status'] = false;
+      $data['error'] = 'update details failed';
+      return $data;
+    }
   }
 
   //get student details using id only, this function is used by an admin only
@@ -193,22 +215,25 @@ class adminDb extends dbOps
   {
     $this->conn = $this->getConnection();
 
-    $data = array();
     if (!empty($student)) {
-
-      //checking if another student exists with the matric number
-      $res = $this->getStudentByMatricNo($student['matric_no']);
-      if ($res['status'] == true) {
-        $data['status'] = false;
-        $data['error'] = 'matric number already exists';
-        return $data;
-      }
 
       $query = "INSERT INTO `students`( `matric_no`, `surname`, `first_name`, `middle_name`, `dob`,
           `nationality`, `state`, `lga`, `level`, `pin`)
           VALUES ('" . $student['matric_no'] . "','" . $student['surname'] . "','" . $student['first_name'] . "','" . $student['middle_name'] . "
           ','" . $student['dob'] . "','" . $student['nationality'] . "','" . $student['state'] . "','" . $student['lga'] . "
           ','" . $student['level'] . "','" . $student['pin'] . "')";
+      $data = array();
+      $res = $this->conn->query($query);
+      if ($res) {
+        $data['status'] = true;
+        $this->conn->close();
+        return $data;
+      } else {
+        $data['status'] = false;
+        $data['error'] = 'matric number already exists';
+        return $data;
+      }
+
 
       $this->conn = $this->getConnection();
       $res = $this->conn->query($query);
@@ -239,7 +264,7 @@ class adminDb extends dbOps
 
     $query = "DELETE FROM `students` WHERE ";
     if ($paramName == 'id') {
-      $query += "id = '" . $param . "'";
+      $query =  $query . "id = '" . $param . "'";
     } elseif ($paramName == 'matric_no') {
       $query = $query . "matric_no = '" . $param . "'";
     }

@@ -1,20 +1,62 @@
 <?php
-if (!isset($_COOKIE["student"])) {
-  header("HTTP/1.1 301 Moved Permanently");
-  header("Location: ../student/login/");
-  exit();
-} elseif (isset($_COOKIE["student"])) {
-  $student = json_decode($_COOKIE["student"]);
-  $id = $student->id;
-  $matric_no = $student->matric_no;
+  if (!isset($_COOKIE["student"])) {
+    header("HTTP/1.1 301 Moved Permanently");
+    header("Location: ../student/login/");
+    exit();
+  } elseif (isset($_COOKIE["student"])) {
+    $student = json_decode($_COOKIE["student"]);
+    $id = $student->id;
+    $matric_no = $student->matric_no;
 
-  require_once "/xampp/htdocs/CSC12/dist/lib/dbConnect.php";
-  $studentOps = new dbOps();
-  $studentProfile = $studentOps->getStudentById($id, $matric_no);
-  if (!$studentProfile['status']) {
-    $error_message = $studentProfile['error'];
+    require_once "/xampp/htdocs/CSC12/dist/lib/dbConnect.php";
+    $studentOps = new dbOps();
+
+    $studentProfile = $studentOps->getStudentById($id, $matric_no);
+    if(!$studentProfile['status']) {
+      $error_message = $studentProfile['error'];
+    }
+
+    if (isset($_POST["submit"])) {
+      $surname = $_POST["surname"];
+      $firstname = $_POST["firstname"];
+      $middlename = $_POST["middlename"];
+      $dob = $_POST["d-o-b"];
+      $nationality = $_POST["nationality"];
+      $state = $_POST["state"];
+      $lga = $_POST["lga"];
+      $matric_no = $_POST["matric-no"];
+      $level = $_POST["level"];
+      unset($_POST["submit"]);
+
+      $student = array();
+    
+      //creating the student data array
+      $student['matric_no'] = $matric_no;
+      $student['surname'] = $surname;
+      $student['first_name'] = $firstname;
+      $student['middle_name'] = $middlename;
+      $student['dob'] = $dob;
+      $student['nationality'] = $nationality;
+      $student['state'] = $state;
+      $student['lga'] = $lga;
+      $student['level'] = $level;
+        
+      $res = $studentOps->updateStudent($student, $id);
+      if($res['status']) {
+        $message = ("changes saved");
+        setcookie("student", json_encode(array('matric_no' => $res['result']["matric_no"], 'id' => $res['result']["id"])), time() + 60 * 60 * 24 * 7, "/"); // expire in 7 days
+        header("location:/CSC12/dist/student/");
+        exit();
+      } else {
+        $error_message = $res['error'];
+      }
+      
+      // reset form values
+      $surname = $firstname = $middlename = $dob = $nationality = $state = $lga = $matric_no = "";
+      $level = 100;
+    }
   }
-}
+
 ?>
 
 <?php include "/xampp/htdocs/CSC12/dist/templates/header.php" ?>
@@ -25,33 +67,29 @@ if (!isset($_COOKIE["student"])) {
 <!-- RIGHT COLUMN -->
 <div class="col-start-2 col-span-1 p-[20px] bg-[#E5E5E5] ">
 
-  <!-- ALERT DIV -->
-  <div class="w-full pointer-events-none bg-[#e5e5e5b9] backdrop-blur-sm sticky top-[10px] mb-[20px] ">
-    <div id="alert" class="hidden font-bold bg-[transparent] w-[100%] p-[5px] mr-auto border border-red-500 text-red-500 " role="alert">
-      Alert
-    </div>
-  </div>
+    <?php
+      //this displays the error
+      if(!empty($error_message)) {
+        require_once "/xampp/htdocs/CSC12/dist/views/alert.php";
+        showAlert($error_message);
+      }
+    ?>
 
-  <!-- SAVE BUTTON -->
-  <button type="submit" id="save-std" class="text-white py-3 px-4 mt-[30px] ml-auto  bg-[#1db336] hover:bg-[#038013] rounded-md flex items-center ">
-    <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M19 21.5H5C4.46957 21.5 3.96086 21.2893 3.58579 20.9142C3.21071 20.5391 3 20.0304 3 19.5V5.5C3 4.96957 3.21071 4.46086 3.58579 4.08579C3.96086 3.71071 4.46957 3.5 5 3.5H16L21 8.5V19.5C21 20.0304 20.7893 20.5391 20.4142 20.9142C20.0391 21.2893 19.5304 21.5 19 21.5Z" stroke="#F2F2F2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-      <path d="M17 21.5V13.5H7V21.5" stroke="#F2F2F2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-      <path d="M7 3.5V8.5H15" stroke="#F2F2F2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-    </svg>
+  
+  <form action="<?php echo (htmlspecialchars($_SERVER["PHP_SELF"])) ?>" class="w-full" method="post">
 
-    <span class="ml-3">Save
-    </span>
-  </button>
-
-
-  <form action="" class="">
+      <!-- SAVE BUTTON -->
+        <button type="submit" name="submit" id="save-std" class=" w-max text-white py-3 px-4 mt-[30px] ml-auto bg-[#2F80ED] hover:bg-[#033e8b] rounded-md flex items-center " >
+          <span>
+            <img id="save-std" src="/CSC12/dist/res/images/save.svg" alt="">
+          </span>
+          <p id="save-std" class="hidden ml-3 sm:block">Save</p>
+        </button>
 
     <!-- Personal Info form group -->
     <div class=" mb-[20px] ">
 
       <h3 class="w-full border-b-[2px] border-[#BDBDBD] font-bold mb-[20px] ">Personal Information</h3>
-
 
       <div class="md:grid md:grid-cols-6 md:grid-rows-3 md:gap-x-[47px] md:gap-y-[10px] font-[500]  ">
 
@@ -130,16 +168,18 @@ if (!isset($_COOKIE["student"])) {
   </form>
 </div>
 
-<?php
-echo ('
-      <script>
-        document.querySelector("#level").value = ' . $studentProfile['result']['level'] . ';
-        document.querySelector("#level").classList.remove("bg-[transparent]");
-        document.querySelector("#level").classList.add("bg-[white]");
-        document.querySelector("#d-o-b").classList.remove("bg-[transparent]");
-        document.querySelector("#d-o-b").classList.add("bg-[white]");
-      </script>
-    ');
+  <?php
+    if(!empty($studentProfile['result']['level'])) {
+      echo ('
+        <script>
+          document.querySelector("#level").value = ' . $studentProfile['result']['level'] . ';
+          document.querySelector("#level").classList.remove("bg-[transparent]");
+          document.querySelector("#level").classList.add("bg-[white]");
+          document.querySelector("#d-o-b").classList.remove("bg-[transparent]");
+          document.querySelector("#d-o-b").classList.add("bg-[white]");
+        </script>
+      ');
+    }
 ?>
 <script src="../scripts/ui.js"></script>
 
