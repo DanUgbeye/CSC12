@@ -1,16 +1,16 @@
 <?php
-  $username = "username";
-  $type = "";
+$username = "username";
+$type = "";
 
-  if (isset($_COOKIE["admin"])) {
-    $type = "admin";
-    $admin = json_decode($_COOKIE["admin"]);
-    $username = $admin->email;
-  } elseif (isset($_COOKIE["student"])) {
-    $type = "student";
-    $admin = json_decode($_COOKIE["student"]);
-    $username = $admin->matric_no;
-  }
+if (isset($_COOKIE["admin"])) {
+  $type = "admin";
+  $admin = json_decode($_COOKIE["admin"]);
+  $username = $admin->email;
+} elseif (isset($_COOKIE["student"])) {
+  $type = "student";
+  $admin = json_decode($_COOKIE["student"]);
+  $username = $admin->matric_no;
+}
 ?>
 <nav class="p-[20px] h-[100vh] w-full bg-gray-100 flex flex-col justify-between">
 
@@ -32,16 +32,16 @@
 
     <ul class="list-none mt-10 text-[#333333] grid grid-flow-row gap-4">
       <?php
-        if ($type === "admin") {
-          echo ("
+      if ($type === "admin") {
+        echo ("
             <li>
-              <a href='/CSC12/dist/admin/' class='block p-[5px] h-full  text-gray-700 rounded font-medium tracking-wider active:text-[#5D5FEF] hover:bg-gray-200'>Overview</a>
+              <a href='/CSC12/dist/admin/index.php' class='block p-[5px] h-full  text-gray-700 rounded font-medium tracking-wider active:text-[#5D5FEF] hover:bg-gray-200'>Overview</a>
             </li>
             <li>
-              <a href='/CSC12/dist/admin/create/' class='block p-[5px] h-full text-gray-700 font-medium tracking-wider rounded active:text-[#5d5fef] hover:bg-gray-200'>Create</a>
+              <a href='/CSC12/dist/admin/create/index.php' class='block p-[5px] h-full text-gray-700 font-medium tracking-wider rounded active:text-[#5d5fef] hover:bg-gray-200'>Create</a>
             </li>
             <li>
-              <a href='/CSC12/dist/admin/update/' class='block p-[5px] h-full text-gray-700 font-medium tracking-wider rounded hover:bg-gray-200 '>Update</a>
+              <a href='/CSC12/dist/admin/update/index.php' class='block p-[5px] h-full text-gray-700 font-medium tracking-wider rounded hover:bg-gray-200 '>Update</a>
             </li>
             <li>
               <button class='flex items-center p-[5px] w-full text-left text-gray-700 font-medium tracking-wider rounded hover:bg-gray-200 ' name='logout' onclick='document.cookie = `admin=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`; window.location.replace(`/CSC12/dist/admin/login/index.php`)'>
@@ -54,8 +54,8 @@
               </button>
             </li>
           ");
-        } elseif ($type === "student") {
-          echo ("
+      } elseif ($type === "student") {
+        echo ("
             <li>
               <a href='/CSC12/dist/student/' class='block p-[5px] h-full text-gray-700 font-medium tracking-wider rounded hover:bg-gray-200 '>Profile</a>
             </li>
@@ -70,7 +70,7 @@
               </button>
             </li>
           ");
-        } 
+      }
       ?>
     </ul>
   </div>
