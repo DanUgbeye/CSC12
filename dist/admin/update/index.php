@@ -1,15 +1,17 @@
 <?php
 require_once "/xampp/htdocs/CSC12/dist/lib/dbConnect.php";
 session_start();
-$username = $matric_no = "";
-$adminOps = new adminDb();
-$data = array();
-$editing_state = false;
+
 if (!isset($_COOKIE["admin"])) {
   header("HTTP/1.1 301 Moved Permanently");
   header("Location: /CSC12/dist/admin/login/");
   exit();
 } else {
+  $username = $matric_no = "";
+  $adminOps = new adminDb();
+  $data = array();
+  $editing_state = false;
+  $student_data = false;
   $admin = json_decode($_COOKIE["admin"]);
   $username = $admin->email;
 }
@@ -22,6 +24,7 @@ if (isset($_POST["edit"])) {
     $data = $result['result'];
   }
 }
+
 if (isset($_POST["save"])) {
   $surname = $_POST["surname"];
   $firstname = $_POST["firstname"];
@@ -44,17 +47,15 @@ if (isset($_POST["save"])) {
   $student['lga'] = $lga;
   $student['level'] = $level;
 
-
   $res = $adminOps->updateStudent($student, $_SESSION['id']);
   $editing_state = false;
   $matric_no = $_SESSION["matric_no"];
   $result = $adminOps->getStudentByMatricNo($matric_no);
-  // $result = $adminOps->getStudentByMatricNo($matric_no);
   if ($result['status']) {
     $data = $result['result'];
-    // echo($data['matric_no']);
   }
 }
+
 if (isset($_POST["delete"])) {
   $matric_no = $_SESSION["matric_no"];
   $result = $adminOps->deleteStudent($matric_no, "matric_no");
@@ -62,12 +63,14 @@ if (isset($_POST["delete"])) {
     $data = array();
   }
 }
+
 if (isset($_POST["search"])) {
   $matric_no = $_SESSION['matric_no'] = $_POST["matric_no"];
   $result = $adminOps->getStudentByMatricNo($matric_no);
   if ($result['status']) {
     $data = $result['result'];
     $_SESSION["id"] = $data["id"];
+    $student_data = true;
   }
 }
 
@@ -93,7 +96,8 @@ if (isset($_POST["search"])) {
   </form>
 
 
-  <?php if (count($data) > 0) {
+  <?php 
+  if (count($data) > 0) {
     $disabled = $editing_state ? "" : "disabled";
     echo ("
     <form method='POST' action=$_SERVER[PHP_SELF] onsubmit='e.preventDefault();'>
@@ -166,7 +170,7 @@ if (isset($_POST["search"])) {
           <!-- Level input field -->
           <div class='md:col-start-4 md:col-span-3 md:row-start-1 md:row-span-1  mb-[20px] md:mb-0 '>
             <label for='level' class='block'>Level</label>
-            <select $disabled class='w-full outline-0 rounded p-[10px] bg-[transparent] border border-[#BDBDBD]' name='level' value=$data[level]>
+            <select $disabled id='level' class='w-full outline-0 rounded p-[10px] bg-[transparent] border border-[#BDBDBD]' name='level' value=$data[level]>
               <option value='100'>100</option>
               <option value='200'>200</option>
               <option value='300'>300</option>
@@ -226,6 +230,15 @@ if (isset($_POST["search"])) {
   ?>
 </div>
 
+<?php
+if($student_data) {
+  echo ("
+    <script>
+      document.querySelector('#level').value=$data[level];
+    </script>
+  ");
+}
+?>
 <script src="/CSC12/dist/scripts/ui.js"></script>
 
 </body>
