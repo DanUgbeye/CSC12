@@ -61,31 +61,6 @@ class dbOps extends dbConnect
     }
   }
 
-  //checks the data passed if it is valid
-  function check($student = array()) {
-
-    $res = array();
-
-    if($student['surname'] == '' || $student['first_name'] == '' ||
-      $student['middle_name'] == '' || $student['dob'] == '' ||
-      $student['nationality'] == '' || $student['state'] == '' ||
-      $student['lga'] == '' ||  $student['matric_no'] == '' ||
-      $student['level'] == '' || strlen($student['matric_no']) < 12 ||
-      strlen($student['matric_no']) > 14 ){
-
-        if(empty($student['surname'])) {
-          $res['error'] = 'Surname is empty';
-        }
-        
-
-        $res['valid'] = false;
-        return false;
-      }else {
-        $res['valid'] = true;
-        return $res;
-      }
-
-  }
 
   //compares 2 student details if they are equal and returns a boolean
   function compare($student1, $student2)
