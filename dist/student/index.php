@@ -139,7 +139,6 @@ echo ('
       </script>
     ');
 ?>
-<script src="../scripts/ui.js"></script>
 
 </body>
 

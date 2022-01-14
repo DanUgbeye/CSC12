@@ -69,8 +69,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<?php //include_once "/xampp/htdocs/CSC12/dist/templates/header.php" ?>
-
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -138,13 +136,6 @@
           </div>
 
           <input type="submit" name="submit" value="Login" id=" admin-login" class="bg-[#2F80ED] hover:bg-[#4091FE] w-full max-w-[500px] mb-[20px] p-[10px] rounded-lg font-[500] text-[white] cursor-pointer" />
-
-          <?php
-          // echo ("<p class='text-red-500'>" . $user_error . "</p>");
-          ?>
-          <?php
-          // echo ("<p class='text-green-700'>" . $user . "</p>");
-          ?>
 
           <?php
           if ($user) {

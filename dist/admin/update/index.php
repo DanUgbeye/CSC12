@@ -98,7 +98,7 @@ if (isset($_POST["search"])) {
   <!-- search bar -->
   <form method="POST" action=<?php echo (htmlspecialchars($_SERVER['PHP_SELF'])) ?> class="flex mb-5 bg-gray-100" onsubmit="e.preventDefault();">
 
-    <input class="w-full bg-transparent outline-0 rounded p-[10px] pr-[35px] placeholder:text-[transparent] sm:placeholder:text-gray-300" type="text" name="matric_no" placeholder="Type in a matric number to begin" value=<?php echo ($matric_no) ?>>
+    <input class="w-full bg-transparent outline-0 rounded p-[10px] pr-[35px] placeholder:text-[transparent] sm:placeholder:text-gray-300" type="text" name="matric_no" minlength="12" maxlength="14" placeholder="Type in a matric number to begin" value=<?php echo ($matric_no) ?>>
 
     <button type="submit" name="search" class="w-[50px] grid place-items-center hover:scale-110 bg-[#2F80ED]">
       <svg width=" 20" height="20" viewBox="0 0 20 20" fill="none" stroke="#ffffff" xmlns="http://www.w3.org/2000/svg">
@@ -262,7 +262,6 @@ if($student_data) {
   ");
 }
 ?>
-<script src="/CSC12/dist/scripts/ui.js"></script>
 
 </body>
 

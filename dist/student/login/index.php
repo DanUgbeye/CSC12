@@ -94,52 +94,47 @@
         </a>
     </nav>
 
-<div class="main h-full w-full max-w-[500px] mx-auto mt-[50px] flex flex-col items-center justify-center">
+    <div class="main h-full w-full max-w-[500px] mx-auto mt-[50px] flex flex-col items-center justify-center">
 
-  <h2 class="text-[36px] font-bold text-[#5D5FEF] mb-[40px] ">Student Login</h2>
+      <h2 class="text-[36px] font-bold text-[#5D5FEF] mb-[40px] ">Student Login</h2>
 
-  <?php
-    //this displays the error
-    if(!empty($user_error)) {
-      require_once "/xampp/htdocs/CSC12/dist/views/alert.php";
-      showAlert($user_error);
-    }
+      <?php
+        //this displays the error
+        if(!empty($user_error)) {
+          require_once "/xampp/htdocs/CSC12/dist/views/alert.php";
+          showAlert($user_error);
+        }
 
-  ?>
+      ?>
 
-  <form class="w-full max-w-[500px] " action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" onsubmit="(e)=>e.preventDefault()">
+      <form class="w-full max-w-[500px] " action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="post" onsubmit="(e)=>e.preventDefault()">
 
-    <div class="w-full max-w-[500px] mb-[20px] ">
-      <label for="matric-no" class="block">Matric No</label>
-      <input class="w-full outline-0 rounded-lg p-[10px] border border-[#BDBDBD]" type="text" name="matric-no" id="matric-no" placeholder="matric no" value="<?php echo ($matric_no) ?>" minlength="12" maxlength="14" required>
-      <?php echo ("<p class='text-red-500'>" . $matric_error . "</p>") ?>
+        <div class="w-full max-w-[500px] mb-[20px] ">
+          <label for="matric-no" class="block">Matric No</label>
+          <input class="w-full outline-0 rounded-lg p-[10px] border border-[#BDBDBD]" type="text" name="matric-no" id="matric-no" placeholder="matric no" value="<?php echo ($matric_no) ?>" minlength="12" maxlength="14" required>
+          <?php echo ("<p class='text-red-500'>" . $matric_error . "</p>") ?>
+        </div>
+
+        <div class="w-full max-w-[500px] mb-[20px] ">
+          <label for="pin" class="block">Pin</label>
+          <input class="w-full outline-0 rounded-lg p-[10px] border border-[#BDBDBD]" type="text" name="pin" id="pin" placeholder="000-000-000-000" value="<?php echo ($pin) ?>" minlength="12" maxlength="12" required>
+          <?php echo ("<p class='text-red-500'>" . $pin_error . "</p>") ?>
+        </div>
+
+        <input name="submit" type="submit" id="student-login" value="login" class="bg-[#2F80ED] hover:bg-[#4091FE] w-full max-w-[500px] mb-[20px] p-[10px] rounded-lg font-[500] text-[white] " />
+        <?php //echo ("<p class='text-red-500'>" . $user_error . "</p>") ?>
+
+      </form>
+
+      <?php
+        // this displays the login successful message
+          if ($user) {
+            include_once '/xampp/htdocs/CSC12/dist/views/popup.php';
+            showPopup($user);
+          }
+        ?>
     </div>
 
-    <div class="w-full max-w-[500px] mb-[20px] ">
-      <label for="pin" class="block">Pin</label>
-      <input class="w-full outline-0 rounded-lg p-[10px] border border-[#BDBDBD]" type="text" name="pin" id="pin" placeholder="000-000-000-000" value="<?php echo ($pin) ?>" minlength="12" maxlength="12" required>
-      <?php echo ("<p class='text-red-500'>" . $pin_error . "</p>") ?>
-    </div>
-
-    <input name="submit" type="submit" id="student-login" value="login" class="bg-[#2F80ED] hover:bg-[#4091FE] w-full max-w-[500px] mb-[20px] p-[10px] rounded-lg font-[500] text-[white] " />
-    <?php //echo ("<p class='text-red-500'>" . $user_error . "</p>") ?>
-
-  </form>
-
-  <?php
-    // this displays the login successful message
-      if ($user) {
-        include_once '/xampp/htdocs/CSC12/dist/views/popup.php';
-        showPopup($user);
-      }
-    ?>
-</div>
-
-<script src="/CSC12/dist/scripts/ui.js"></script>
-<!-- <script src="/CSC12/dist/scripts/login.js"></script>
-    <script src="/CSC12/dist/scripts/student.js"></script>
-    <script src="/CSC12/dist/app.js"></script> -->
-
-</body>
+  </body>
 
 </html>

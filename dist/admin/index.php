@@ -171,8 +171,6 @@ if (!isset($_COOKIE["admin"])) {
   ');
 ?>
 
-<script src="/CSC12/dist/scripts/ui.js"></script>
-
 </body>
 
 </html>

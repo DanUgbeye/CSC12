@@ -9,8 +9,6 @@
 
   <link rel="stylesheet" href="/CSC12/dist/style.css">
   <title>CSC 12</title>
-  <script src="/CSC12/dist/scripts/ui.js">
-  </script>
 </head>
 
 <body class="h-[100vh] min-w-[700px] grid grid-cols-[250px_1fr]">

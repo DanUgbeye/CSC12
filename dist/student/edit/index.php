@@ -12,7 +12,7 @@
     $studentOps = new dbOps();
 
     $studentProfile = $studentOps->getStudentById($id, $matric_no);
-    if(!$studentProfile['status']) {
+    if($studentProfile['status'] == false) {
       $error_message = $studentProfile['error'];
     }
 
@@ -26,34 +26,38 @@
       $lga = $_POST["lga"];
       $matric_no = $_POST["matric-no"];
       $level = $_POST["level"];
-      unset($_POST["submit"]);
+      unset($_POST["save"]);
 
-      $student = array();
-    
-      //creating the student data array
-      $student['matric_no'] = $matric_no;
-      $student['surname'] = $surname;
-      $student['first_name'] = $firstname;
-      $student['middle_name'] = $middlename;
-      $student['dob'] = $dob;
-      $student['nationality'] = $nationality;
-      $student['state'] = $state;
-      $student['lga'] = $lga;
-      $student['level'] = $level;
-        
-      $res = $studentOps->updateStudent($student, $id);
-      if($res['status']) {
-        $message = ("changes saved");
-        setcookie("student", json_encode(array('matric_no' => $res['result']["matric_no"], 'id' => $res['result']["id"])), time() + 60 * 60 * 24 * 7, "/"); // expire in 7 days
-        header("location:/CSC12/dist/student/");
-        exit();
-      } else {
-        $error_message = $res['error'];
-      }
+      if(strlen($matric_no) < 12 || strlen($matric_no) > 14) {
+        $error_message = "Invalid matric number";
+      }else {
+        $student = array();
       
-      // reset form values
-      $surname = $firstname = $middlename = $dob = $nationality = $state = $lga = $matric_no = "";
-      $level = 100;
+        //creating the student data array
+        $student['matric_no'] = $matric_no;
+        $student['surname'] = $surname;
+        $student['first_name'] = $firstname;
+        $student['middle_name'] = $middlename;
+        $student['dob'] = $dob;
+        $student['nationality'] = $nationality;
+        $student['state'] = $state;
+        $student['lga'] = $lga;
+        $student['level'] = $level;
+          
+        $res = $studentOps->updateStudent($student, $id);
+        if($res['status']) {
+          $message = ("changes saved");
+          setcookie("student", json_encode(array('matric_no' => $res['result']["matric_no"], 'id' => $res['result']["id"])), time() + 60 * 60 * 24 * 7, "/"); // expire in 7 days
+          header("location:/CSC12/dist/student/");
+          exit();
+        } else {
+          $error_message = $res['error'];
+        }
+        
+        // reset form values
+        $surname = $firstname = $middlename = $dob = $nationality = $state = $lga = $matric_no = "";
+        $level = 100;
+      }
     }
   }
 
@@ -180,7 +184,6 @@
       ');
     }
   ?>
-<script src="../scripts/ui.js"></script>
 
 </body>
 

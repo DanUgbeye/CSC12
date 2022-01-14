@@ -100,17 +100,13 @@ class dbOps extends dbConnect
     $data = array();
     //checking if any change was made in the student details before updating
     $res = $this->getStudentById($id, $student['matric_no']);
-    if ($res['status']) {
+    if ($res['status'] == true) {
       $match = $this->compare($res['result'], $student);
       if ($match) {
         $data['status'] = false;
         $data['error'] = 'no changes have been made';
         return $data;
       }
-    } else {
-      $data['status'] = false;
-      $data['error'] = 'invalid ID';
-      return $data;
     }
 
     $query = "UPDATE `students` SET `matric_no`='" . $student['matric_no'] . "',`surname`='" . $student['surname'] . "',
@@ -176,7 +172,7 @@ class dbOps extends dbConnect
       return $data;
     } else {
       $data['status'] = false;
-      $data['error'] = 'Invalid id';
+      $data['error'] = 'Invalid id or matric number';
       $this->conn->close();
       return $data;
     }

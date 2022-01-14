@@ -58,11 +58,5 @@
       </button>
     </div>
 
-
-    <script src="/CSC12/dist/scripts/ui.js"></script>
-    <!-- <script src="/CSC12/dist/scripts/login.js"></script> -->
-    <!-- <script src="/CSC12/dist/scripts/student.js"></script> -->
-    <!-- <script src="/CSC12/dist/app.js"></script> -->
-    
   </body>
 </html>
