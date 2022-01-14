@@ -25,54 +25,59 @@ if (isset($_POST["submit"])) {
   $matric_no = $_POST["matric-no"];
   $level = $_POST["level"];
 
-  // create a connection to the db
-  $conn = mysqli_connect("localhost", "deedee", "123456", "csc12");
+  if(strlen($matric_no) < 12 || strlen($matric_no) > 14) {
+    $error_message = "Invalid matric number";
+  }else {
+    // create a connection to the db
+    $conn = mysqli_connect("localhost", "deedee", "123456", "csc12");
+  
+    if (!$conn) {
+      echo ("connection error" . mysqli_connect_error());
+    }
+  
+  
+    // query for checking if a user with the pin already exists in the db
+    do {
+      // create a new pin based on current time
+      $pin = substr(MD5(time()), 0, 12);
+  
+      // query for checking if a user with the matric number already exists in the db
+      $sql = "SELECT `pin` FROM `students` WHERE `pin`='" . $pin . "'";
+      $result = mysqli_query($conn, $sql);
+      $existing_student = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    } while (count($existing_student) > 0);
+  
+    // free system resources
+    mysqli_free_result($result);
+  
+    //creating the student data array
+    $student['matric_no'] = $matric_no;
+    $student['surname'] = $surname;
+    $student['first_name'] = $firstname;
+    $student['middle_name'] = $middlename;
+    $student['dob'] = $dob;
+    $student['nationality'] = $nationality;
+    $student['state'] = $state;
+    $student['lga'] = $lga;
+    $student['level'] = $level;
+    $student['pin'] = $pin;
+  
+    require_once "/xampp/htdocs/CSC12/dist/lib/dbConnect.php";
+    $adminOps = new adminDb();
+  
+    $res = $adminOps->createStudent($student);
+  
+    if (($res['status'])) {
+      $message = ("Student created");
+    } else {
+      $error_message = $res['error'];
+    }
+  
+    // reset form values
+    $surname = $firstname = $middlename = $dob = $nationality = $state = $lga = $matric_no = "";
+    $level = 100;
 
-  if (!$conn) {
-    echo ("connection error" . mysqli_connect_error());
   }
-
-
-  // query for checking if a user with the pin already exists in the db
-  do {
-    // create a new pin based on current time
-    $pin = substr(MD5(time()), 0, 12);
-
-    // query for checking if a user with the matric number already exists in the db
-    $sql = "SELECT `pin` FROM `students` WHERE `pin`='" . $pin . "'";
-    $result = mysqli_query($conn, $sql);
-    $existing_student = mysqli_fetch_all($result, MYSQLI_ASSOC);
-  } while (count($existing_student) > 0);
-
-  // free system resources
-  mysqli_free_result($result);
-
-  //creating the student data array
-  $student['matric_no'] = $matric_no;
-  $student['surname'] = $surname;
-  $student['first_name'] = $firstname;
-  $student['middle_name'] = $middlename;
-  $student['dob'] = $dob;
-  $student['nationality'] = $nationality;
-  $student['state'] = $state;
-  $student['lga'] = $lga;
-  $student['level'] = $level;
-  $student['pin'] = $pin;
-
-  require_once "/xampp/htdocs/CSC12/dist/lib/dbConnect.php";
-  $adminOps = new adminDb();
-
-  $res = $adminOps->createStudent($student);
-
-  if (($res['status'])) {
-    $message = ("Student created");
-  } else {
-    $error_message = $res['error'];
-  }
-
-  // reset form values
-  $surname = $firstname = $middlename = $dob = $nationality = $state = $lga = $matric_no = "";
-  $level = 100;
 }
 ?>
 
@@ -154,7 +159,7 @@ if (isset($_POST["submit"])) {
         <!-- Matric No input field -->
         <div class="md:col-start-1 md:col-span-3 md:row-start-1 md:row-span-1  mb-[20px] md:mb-0 ">
           <label for="matric-no" class="block">Matric No</label>
-          <input class="w-full outline-0 rounded p-[10px] border border-[#BDBDBD]" type="text" name="matric-no" id="matric-no" placeholder="Eg. 17/184145016TR" value="<?php echo ($matric_no) ?>" required>
+          <input class="w-full outline-0 rounded p-[10px] border border-[#BDBDBD]" type="text" name="matric-no" id="matric-no" placeholder="Eg. 17/184145016TR" minlength="12" maxlength="14" value="<?php echo ($matric_no) ?>" required>
         </div>
 
         <!-- Level input field -->

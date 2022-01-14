@@ -88,12 +88,13 @@
         <img src="/CSC12/dist/res/images/logo.svg" alt="Logo">
       </div>
 
-        <a class=" px-[10px] rounded-md tracking-wider font-medium flex gap-[5px] items-center py-[5px] ml-auto text-[#5D5FEF] hover:bg-gray-300 " href="/CSC12/dist/">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z" fill="#5D5FEF"/>
-          </svg>
-          back
-        </a>
+      <!-- back button -->
+      <a class=" px-[10px] rounded-md tracking-wider font-medium flex gap-[5px] items-center py-[5px] ml-auto text-[#5D5FEF] text-center hover:bg-gray-300 hover:font-semibold " href="/CSC12/dist/">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z" fill="#5D5FEF"/>
+        </svg>
+        back
+      </a>
     </nav>
 
     <div class="main h-full w-full max-w-[500px] mx-auto mt-[50px] flex flex-col items-center justify-center">

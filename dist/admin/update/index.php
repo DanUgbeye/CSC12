@@ -53,9 +53,14 @@ if (isset($_POST["save"])) {
   $res = $adminOps->updateStudent($student, $_SESSION['id']);
   $editing_state = false;
   $matric_no = $_SESSION["matric_no"];
-  $result = $adminOps->getStudentByMatricNo($matric_no);
-  if ($result['status']) {
+  if ($res['status'] == true) {
+    $data = $res['result'];
+    $student_data = true;
+  }else {
+    $result = $adminOps->getStudentByMatricNo($matric_no);
     $data = $result['result'];
+    $editing_state = true;
+    $error_message = $res['error'];
     $student_data = true;
   }
 }
@@ -71,7 +76,7 @@ if (isset($_POST["delete"])) {
 if (isset($_POST["search"])) {
   $matric_no = $_SESSION['matric_no'] = $_POST["matric_no"];
   $result = $adminOps->getStudentByMatricNo($matric_no);
-  if ($result['status']) {
+  if ($result['status'] == true) {
     $data = $result['result'];
     $_SESSION["id"] = $data["id"];
     $student_data = true;
@@ -105,7 +110,7 @@ if (isset($_POST["search"])) {
 
   <?php
     //this displays the error
-    if(!empty($user_error)) {
+    if(!empty($error_message)) {
       require_once "/xampp/htdocs/CSC12/dist/views/alert.php";
       showAlert($error_message);
     }

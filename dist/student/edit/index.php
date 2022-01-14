@@ -16,7 +16,7 @@
       $error_message = $studentProfile['error'];
     }
 
-    if (isset($_POST["submit"])) {
+    if (isset($_POST["save"])) {
       $surname = $_POST["surname"];
       $firstname = $_POST["firstname"];
       $middlename = $_POST["middlename"];
@@ -75,11 +75,10 @@
       }
     ?>
 
-  
   <form action="<?php echo (htmlspecialchars($_SERVER["PHP_SELF"])) ?>" class="w-full" method="post">
 
       <!-- SAVE BUTTON -->
-        <button type="submit" name="submit" id="save-std" class=" w-max text-white py-3 px-4 mt-[30px] ml-auto bg-[#2F80ED] hover:bg-[#033e8b] rounded-md flex items-center " >
+        <button type="submit" name="save" id="save-std" class=" w-max text-white py-3 px-4 mt-[30px] ml-auto bg-[#2F80ED] hover:bg-[#033e8b] rounded-md flex items-center " >
           <span>
             <img id="save-std" src="/CSC12/dist/res/images/save.svg" alt="">
           </span>
@@ -148,7 +147,7 @@
         <!-- Matric No input field -->
         <div class="md:col-start-1 md:col-span-3 md:row-start-1 md:row-span-1  mb-[20px] md:mb-0 ">
           <label for="matric-no" class="block">Matric No</label>
-          <input class="w-full outline-0 rounded p-[10px] border border-[#BDBDBD]" type="text" name="matric-no" id="matric-no" placeholder="Eg. 17/184145016TR" value="<?php echo $studentProfile['result']['matric_no']; ?>">
+          <input class="w-full outline-0 rounded p-[10px] border border-[#BDBDBD]" type="text" name="matric-no" id="matric-no" placeholder="Eg. 17/184145016TR" minlength="12" maxlength="14" value="<?php echo $studentProfile['result']['matric_no']; ?>">
         </div>
 
         <!-- Level input field -->
@@ -180,7 +179,7 @@
         </script>
       ');
     }
-?>
+  ?>
 <script src="../scripts/ui.js"></script>
 
 </body>
