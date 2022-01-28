@@ -12,7 +12,7 @@ if (isset($_COOKIE["admin"])) {
   $username = $admin->matric_no;
 }
 ?>
-<nav class="p-[20px] h-[100vh] w-full bg-gray-100 flex flex-col justify-between">
+<nav style="height:100%" class="p-[20px]  w-full bg-gray-100 flex flex-col justify-between">
 
   <div>
     <!-- logo -->

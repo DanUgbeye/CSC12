@@ -212,14 +212,22 @@ class adminDb extends dbOps
   {
     $this->conn = $this->getConnection();
 
+    $data = array();
     if (!empty($student)) {
+      $res = $this->getStudentByMatricNo($student['matric_no']);
+      if($res['status'] == true) {
+        $data['status'] = false;
+        $data['error'] = 'Matric number already exists';
+        return $data;
+      }
 
+      $this->conn = $this->getConnection();
       $query = "INSERT INTO `students`( `matric_no`, `surname`, `first_name`, `middle_name`, `dob`,
           `nationality`, `state`, `lga`, `level`, `pin`)
           VALUES ('" . $student['matric_no'] . "','" . $student['surname'] . "','" . $student['first_name'] . "','" . $student['middle_name'] . "
           ','" . $student['dob'] . "','" . $student['nationality'] . "','" . $student['state'] . "','" . $student['lga'] . "
           ','" . $student['level'] . "','" . $student['pin'] . "')";
-      $data = array();
+      
       $res = $this->conn->query($query);
       if ($res) {
         $data['status'] = true;
