@@ -47,7 +47,7 @@ class dbOps extends dbConnect
     $res = $this->conn->query($query);
 
     if ($res->num_rows > 0) {
-      $resp = $res->fetch_array();
+      $resp = $res->fetch_array(MYSQLI_ASSOC);
       $data['status'] = true;
       $data['result'] = $resp;
       $res->free_result();
@@ -193,7 +193,7 @@ class adminDb extends dbOps
     $res = $this->conn->query($query);
 
     if ($res->num_rows > 0) {
-      $resp = $res->fetch_array();
+      $resp = $res->fetch_array(MYSQLI_ASSOC);
       $data['status'] = true;
       $res->free_result();
       $this->conn->close();
