@@ -53,6 +53,13 @@ if (isset($_COOKIE["admin"])) {
                 </span>
               </button>
             </li>
+            </ul>
+            </div>
+            <div class='flex items-center justify-center'>
+              <a href='/CSC12/dist/admin/' class='text-gray-600 tracking-widest text-center hover:font-semibold'>
+                $username 
+              </a>
+            </div>
           ");
       } elseif ($type === "student") {
         echo ("
@@ -69,14 +76,19 @@ if (isset($_COOKIE["admin"])) {
                 </span>
               </button>
             </li>
-          ");
+            </ul>
+            </div>
+            <div class='flex items-center justify-center'>
+              <a href='/CSC12/dist/student/' class='text-gray-600 tracking-widest text-center hover:font-semibold'>
+                $username
+              </a>
+            </div>
+        ");
+
       }
       ?>
-    </ul>
-  </div>
+    
+  
 
-  <div class="flex items-center justify-center">
-    <a href="../admin/index.php" class="text-gray-600 tracking-widest text-center hover:font-semibold">
-      <?php echo ($username) ?></a>
-  </div>
+  
 </nav>

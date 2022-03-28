@@ -27,7 +27,7 @@
       </a>
     </nav>
 
-    <div class="main h-full w-full max-w-[500px] mx-auto mt-[50px] flex flex-col items-center justify-center">
+    <div class="main h-full w-full max-w-[350px] mx-auto mt-[50px] flex flex-col items-center justify-center">
 
       <h2 class="text-[36px] font-bold text-[#5D5FEF] mb-[40px] ">
         Login as

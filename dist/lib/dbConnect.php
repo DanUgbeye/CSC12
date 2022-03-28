@@ -15,7 +15,6 @@ class dbConnect
 
   function __construct()
   {
-
     $this->conn = $this->getConnection();
   }
 

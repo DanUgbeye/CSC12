@@ -17,6 +17,7 @@ if (!isset($_COOKIE["admin"])) {
   $username = $admin->email;
 }
 
+//if the edit button is clicked
 if (isset($_POST["edit"])) {
   $editing_state = true;
   $matric_no = $_SESSION["matric_no"];
@@ -27,6 +28,7 @@ if (isset($_POST["edit"])) {
   }
 }
 
+//if the save button is clicked
 if (isset($_POST["save"])) {
 
   $surname = $_POST["surname"];

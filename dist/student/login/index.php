@@ -29,37 +29,51 @@
       $pin_error = "invalid pin";
     } else {
 
-      $conn = mysqli_connect("localhost", "deedee", "123456", "csc12");
-  
-      if (!$conn) {
-        echo ("connection error: " . mysqli_connect_error());
-      }
-  
-      $sql = "SELECT `pin`, `matric_no`, `id` FROM `students` WHERE `matric_no`='" . $matric_no . "'";
-      $result = mysqli_query($conn, $sql);
-  
-      // change result into an array
-      $student = mysqli_fetch_all($result, MYSQLI_ASSOC);
-  
-      // if no student is found
-      if (count($student) < 1) {
-        $user_error = "no user found";
+      require_once "/xampp/htdocs/CSC12/dist/lib/dbConnect.php";
+      $studentOps = new dbOps();
+      $res = $studentOps->studentLogin($matric_no, $pin);
+      $studentData = $res['status'] ? $res['result'] : "";
+
+      if (!$res['status']) {
+        $user_error = "incorrect user credentials";
       } else {
-  
-        // free memory
-        mysqli_free_result($result);
-  
-        // check if pins match
-        $pin_match = $pin === $student[0]['pin'];
-        if (!$pin_match) {
-          $user_error = "incorrect user credentials";
-        } else {
-          $user = "login sucessful";
-          setcookie("student", json_encode(array('matric_no' => $student[0]["matric_no"], 'id' => $student[0]["id"])), time() + 60 * 60 * 24 * 7, "/"); // expire in 7 days
-          header("location:/CSC12/dist/student/");
-          exit();
-        }
+        $user = "login sucessful";
+        setcookie("student", json_encode(array('matric_no' => $studentData["matric_no"], 'id' => $studentData["id"])), time() + 60 * 60 * 24 * 7, "/"); // expire in 7 days
+        header("location:/CSC12/dist/student/");
+        exit();
       }
+      // $conn = mysqli_connect("localhost", "deedee", "123456", "csc12");
+  
+      // if (!$conn) {
+      //   echo ("connection error: " . mysqli_connect_error());
+      // }
+  
+      // $sql = "SELECT `pin`, `matric_no`, `id` FROM `students` WHERE `matric_no`='" . $matric_no . "'";
+      // $result = mysqli_query($conn, $sql);
+  
+      // // change result into an array
+      // $student = mysqli_fetch_all($result, MYSQLI_ASSOC);
+  
+      // // if no student is found
+      // if (count($student) < 1) {
+      //   $user_error = "no user found";
+      // } else {
+  
+      //   // free memory
+      //   mysqli_free_result($result);
+  
+      //   // check if pins match
+      //   $pin_match = $pin === $student[0]['pin'];
+
+        // if (!$pin_match) {
+        //   $user_error = "incorrect user credentials";
+        // } else {
+        //   $user = "login sucessful";
+        //   setcookie("student", json_encode(array('matric_no' => $student[0]["matric_no"], 'id' => $student[0]["id"])), time() + 60 * 60 * 24 * 7, "/"); // expire in 7 days
+        //   header("location:/CSC12/dist/student/");
+        //   exit();
+        // }
+      // }
 
     }
 
